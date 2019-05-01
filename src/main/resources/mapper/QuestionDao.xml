@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dimple.dao.QuestionDao">
+
+    <resultMap type="com.dimple.entity.Question" id="QuestionMap">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="title" column="title" />
+        <result property="optionA" column="option_a" />
+        <result property="optionB" column="option_b" />
+        <result property="optionC" column="option_c" />
+        <result property="optionD" column="option_d" />
+        <result property="answer" column="answer" />
+        <result property="analyze" column="analyze" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="QuestionMap">
+        select
+          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
+        from my_exam_test.question
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="QuestionMap">
+        select
+          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
+        from my_exam_test.question
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="QuestionMap">
+        select
+          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
+        from my_exam_test.question
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="optionA != null and optionA != ''">
+                and option_a = #{optionA}
+            </if>
+            <if test="optionB != null and optionB != ''">
+                and option_b = #{optionB}
+            </if>
+            <if test="optionC != null and optionC != ''">
+                and option_c = #{optionC}
+            </if>
+            <if test="optionD != null and optionD != ''">
+                and option_d = #{optionD}
+            </if>
+            <if test="answer != null and answer != ''">
+                and answer = #{answer}
+            </if>
+            <if test="analyze != null and analyze != ''">
+                and analyze = #{analyze}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_exam_test.question(type, title, option_a, option_b, option_c, option_d, answer, analyze)
+        values (#{type}, #{title}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{analyze})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_exam_test.question
+        <set>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="optionA != null and optionA != ''">
+                option_a = #{optionA},
+            </if>
+            <if test="optionB != null and optionB != ''">
+                option_b = #{optionB},
+            </if>
+            <if test="optionC != null and optionC != ''">
+                option_c = #{optionC},
+            </if>
+            <if test="optionD != null and optionD != ''">
+                option_d = #{optionD},
+            </if>
+            <if test="answer != null and answer != ''">
+                answer = #{answer},
+            </if>
+            <if test="analyze != null and analyze != ''">
+                analyze = #{analyze},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from my_exam_test.question where id = #{id}
+    </delete>
+
+</mapper>

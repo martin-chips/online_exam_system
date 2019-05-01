@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dimple.dao.ExamStudentDao">
+
+    <resultMap type="com.dimple.entity.ExamStudent" id="ExamStudentMap">
+        <result property="esId" column="es_id" />
+        <result property="studentId" column="student_id" />
+        <result property="examId" column="exam_id" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamStudentMap">
+        select
+          es_id, student_id, exam_id
+        from my_exam_test.exam_student
+        where es_id = #{esId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ExamStudentMap">
+        select
+          es_id, student_id, exam_id
+        from my_exam_test.exam_student
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ExamStudentMap">
+        select
+          es_id, student_id, exam_id
+        from my_exam_test.exam_student
+        <where>
+            <if test="esId != null">
+                and es_id = #{esId}
+            </if>
+            <if test="studentId != null">
+                and student_id = #{studentId}
+            </if>
+            <if test="examId != null">
+                and exam_id = #{examId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="esId" useGeneratedKeys="true">
+        insert into my_exam_test.exam_student(student_id, exam_id)
+        values (#{studentId}, #{examId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_exam_test.exam_student
+        <set>
+            <if test="studentId != null">
+                student_id = #{studentId},
+            </if>
+            <if test="examId != null">
+                exam_id = #{examId},
+            </if>
+        </set>
+        where es_id = #{esId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from my_exam_test.exam_student where es_id = #{esId}
+    </delete>
+
+</mapper>

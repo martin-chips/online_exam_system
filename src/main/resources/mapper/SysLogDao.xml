@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dimple.dao.SysLogDao">
+
+    <resultMap type="com.dimple.entity.SysLog" id="SysLogMap">
+        <result property="id" column="id" />
+        <result property="type" column="type" />
+        <result property="title" column="title" />
+        <result property="remoteAddr" column="remote_addr" />
+        <result property="username" column="username" />
+        <result property="requestUri" column="request_uri" />
+        <result property="httpMethod" column="http_method" />
+        <result property="classMethod" column="class_method" />
+        <result property="params" column="params" />
+        <result property="sessionId" column="session_id" />
+        <result property="response" column="response" />
+        <result property="useTime" column="use_time" />
+        <result property="browser" column="browser" />
+        <result property="area" column="area" />
+        <result property="province" column="province" />
+        <result property="city" column="city" />
+        <result property="isp" column="isp" />
+        <result property="exception" column="exception" />
+        <result property="createBy" column="create_by" />
+        <result property="createDate" column="create_date" />
+        <result property="updateBy" column="update_by" />
+        <result property="updateDate" column="update_date" />
+        <result property="remarks" column="remarks" />
+        <result property="delFlag" column="del_flag" />
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SysLogMap">
+        select
+          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
+        from my_exam_test.sys_log
+        where id = #{id}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SysLogMap">
+        select
+          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
+        from my_exam_test.sys_log
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="SysLogMap">
+        select
+          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
+        from my_exam_test.sys_log
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="type != null and type != ''">
+                and type = #{type}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="remoteAddr != null and remoteAddr != ''">
+                and remote_addr = #{remoteAddr}
+            </if>
+            <if test="username != null and username != ''">
+                and username = #{username}
+            </if>
+            <if test="requestUri != null and requestUri != ''">
+                and request_uri = #{requestUri}
+            </if>
+            <if test="httpMethod != null and httpMethod != ''">
+                and http_method = #{httpMethod}
+            </if>
+            <if test="classMethod != null and classMethod != ''">
+                and class_method = #{classMethod}
+            </if>
+            <if test="params != null and params != ''">
+                and params = #{params}
+            </if>
+            <if test="sessionId != null and sessionId != ''">
+                and session_id = #{sessionId}
+            </if>
+            <if test="response != null and response != ''">
+                and response = #{response}
+            </if>
+            <if test="useTime != null">
+                and use_time = #{useTime}
+            </if>
+            <if test="browser != null and browser != ''">
+                and browser = #{browser}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="isp != null and isp != ''">
+                and isp = #{isp}
+            </if>
+            <if test="exception != null and exception != ''">
+                and exception = #{exception}
+            </if>
+            <if test="createBy != null and createBy != ''">
+                and create_by = #{createBy}
+            </if>
+            <if test="createDate != null">
+                and create_date = #{createDate}
+            </if>
+            <if test="updateBy != null">
+                and update_by = #{updateBy}
+            </if>
+            <if test="updateDate != null">
+                and update_date = #{updateDate}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="delFlag != null">
+                and del_flag = #{delFlag}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into my_exam_test.sys_log(type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag)
+        values (#{type}, #{title}, #{remoteAddr}, #{username}, #{requestUri}, #{httpMethod}, #{classMethod}, #{params}, #{sessionId}, #{response}, #{useTime}, #{browser}, #{area}, #{province}, #{city}, #{isp}, #{exception}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate}, #{remarks}, #{delFlag})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_exam_test.sys_log
+        <set>
+            <if test="type != null and type != ''">
+                type = #{type},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="remoteAddr != null and remoteAddr != ''">
+                remote_addr = #{remoteAddr},
+            </if>
+            <if test="username != null and username != ''">
+                username = #{username},
+            </if>
+            <if test="requestUri != null and requestUri != ''">
+                request_uri = #{requestUri},
+            </if>
+            <if test="httpMethod != null and httpMethod != ''">
+                http_method = #{httpMethod},
+            </if>
+            <if test="classMethod != null and classMethod != ''">
+                class_method = #{classMethod},
+            </if>
+            <if test="params != null and params != ''">
+                params = #{params},
+            </if>
+            <if test="sessionId != null and sessionId != ''">
+                session_id = #{sessionId},
+            </if>
+            <if test="response != null and response != ''">
+                response = #{response},
+            </if>
+            <if test="useTime != null">
+                use_time = #{useTime},
+            </if>
+            <if test="browser != null and browser != ''">
+                browser = #{browser},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="isp != null and isp != ''">
+                isp = #{isp},
+            </if>
+            <if test="exception != null and exception != ''">
+                exception = #{exception},
+            </if>
+            <if test="createBy != null and createBy != ''">
+                create_by = #{createBy},
+            </if>
+            <if test="createDate != null">
+                create_date = #{createDate},
+            </if>
+            <if test="updateBy != null">
+                update_by = #{updateBy},
+            </if>
+            <if test="updateDate != null">
+                update_date = #{updateDate},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="delFlag != null">
+                del_flag = #{delFlag},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from my_exam_test.sys_log where id = #{id}
+    </delete>
+
+</mapper>

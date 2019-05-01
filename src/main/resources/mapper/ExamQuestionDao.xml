@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dimple.dao.ExamQuestionDao">
+
+    <resultMap type="com.dimple.entity.ExamQuestion" id="ExamQuestionMap">
+        <result property="eqId" column="eq_id"/>
+        <result property="examId" column="exam_id"/>
+        <result property="questionId" column="question_id"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ExamQuestionMap">
+        select
+          eq_id, exam_id, question_id
+        from my_exam_test.exam_question
+        where eq_id = #{eqId}
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ExamQuestionMap">
+        select
+          eq_id, exam_id, question_id
+        from my_exam_test.exam_question
+        limit #{offset}, #{limit}
+    </select>
+
+    <!--通过实体作为筛选条件查询-->
+    <select id="queryAll" resultMap="ExamQuestionMap">
+        select
+        eq_id, exam_id, question_id
+        from my_exam_test.exam_question
+        <where>
+            <if test="eqId != null">
+                and eq_id = #{eqId}
+            </if>
+            <if test="examId != null">
+                and exam_id = #{examId}
+            </if>
+            <if test="questionId != null">
+                and question_id = #{questionId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="eqId" useGeneratedKeys="true">
+        insert into my_exam_test.exam_question(exam_id, question_id)
+        values (#{examId}, #{questionId})
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update my_exam_test.exam_question
+        <set>
+            <if test="examId != null">
+                exam_id = #{examId},
+            </if>
+            <if test="questionId != null">
+                question_id = #{questionId},
+            </if>
+        </set>
+        where eq_id = #{eqId}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete from my_exam_test.exam_question where eq_id = #{eqId}
+    </delete>
+
+</mapper>
