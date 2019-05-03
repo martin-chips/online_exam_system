@@ -3,10 +3,16 @@ package com.dimple.service.impl;
 import com.dimple.entity.SysUser;
 import com.dimple.dao.SysUserDao;
 import com.dimple.service.SysUserService;
+import com.dimple.utils.Constants;
+import com.dimple.utils.Convert;
+import com.dimple.utils.StringUtils;
+import com.dimple.utils.WebUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * (SysUser)表服务实现类
@@ -26,20 +32,8 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser selectSysyUserById(Long id) {
-        return this.sysUserDao.queryById(id);
-    }
-
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<SysUser> selectUserList(int offset, int limit) {
-        return this.sysUserDao.queryAllByLimit(offset, limit);
+    public SysUser selectSysyUserById(Integer id) {
+        return this.sysUserDao.selectUserById(id);
     }
 
     /**
@@ -49,9 +43,12 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser insert(SysUser sysUser) {
-        this.sysUserDao.insert(sysUser);
-        return sysUser;
+    public int insert(SysUser sysUser) {
+        if (StringUtils.isBlank(sysUser.getPassword())) {
+            sysUser.setPassword(Constants.DEFAULT_PASSWORD);
+        }
+        WebUtils.entryptPassword(sysUser);
+        return sysUserDao.insert(sysUser);
     }
 
     /**
@@ -61,9 +58,8 @@ public class SysUserServiceImpl implements SysUserService {
      * @return 实例对象
      */
     @Override
-    public SysUser update(SysUser sysUser) {
-        this.sysUserDao.update(sysUser);
-        return this.selectSysyUserById(sysUser.getId());
+    public int update(SysUser sysUser) {
+        return this.sysUserDao.update(sysUser);
     }
 
     /**
@@ -86,5 +82,10 @@ public class SysUserServiceImpl implements SysUserService {
     @Override
     public List<SysUser> selectUserList(SysUser sysUser) {
         return sysUserDao.queryAll(sysUser);
+    }
+
+    @Override
+    public int deleteSysUserByIds(String ids) {
+        return sysUserDao.deleteByIds(Convert.toIntArray(ids));
     }
 }

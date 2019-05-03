@@ -1,7 +1,7 @@
 package com.dimple.dao;
 
 import com.dimple.entity.SysLog;
-import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -18,17 +18,7 @@ public interface SysLogDao {
      * @param id 主键
      * @return 实例对象
      */
-    SysLog queryById(Long id);
-
-    /**
-     * 查询指定行数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<SysLog> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
-
+    SysLog queryById(Integer id);
 
     /**
      * 通过实体作为筛选条件查询
@@ -62,4 +52,11 @@ public interface SysLogDao {
      */
     int deleteById(Long id);
 
+    /**
+     * 通过主键批量删除数据
+     *
+     * @param ids
+     * @return
+     */
+    int deleteByIds(Integer[] ids);
 }

@@ -3,6 +3,7 @@ package com.dimple.service.impl;
 import com.dimple.entity.Question;
 import com.dimple.dao.QuestionDao;
 import com.dimple.service.QuestionService;
+import com.dimple.utils.Convert;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -27,20 +28,40 @@ public class QuestionServiceImpl implements QuestionService {
      */
     @Override
     public Question queryById(Integer id) {
-        return this.questionDao.queryById(id);
+        Question question = this.questionDao.queryById(id);
+        if (question == null) {
+            return null;
+        }
+        switch (question.getType()) {
+            case "1":
+            case "2":
+                String[] split = question.getAnswer().split(",");
+                for (String s : split) {
+                    if ("A".equals(s)) {
+                        question.setOptionAChecked("A");
+                    }
+                    if ("B".equals(s)) {
+                        question.setOptionBChecked("B");
+                    }
+                    if ("C".equals(s)) {
+                        question.setOptionCChecked("C");
+                    }
+                    if ("D".equals(s)) {
+                        question.setOptionDChecked("D");
+                    }
+                }
+                break;
+            case "4":
+                if ("1".equals(question.getAnswer())) {
+                    question.setJudgeAnswer1("1");
+                } else if ("0".equals(question.getAnswer())) {
+                    question.setJudgeAnswer0("0");
+                }
+
+        }
+        return question;
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<Question> queryAllByLimit(int offset, int limit) {
-        return this.questionDao.queryAllByLimit(offset, limit);
-    }
 
     /**
      * 新增数据
@@ -49,9 +70,10 @@ public class QuestionServiceImpl implements QuestionService {
      * @return 实例对象
      */
     @Override
-    public Question insert(Question question) {
-        this.questionDao.insert(question);
-        return question;
+    public int insert(Question question) {
+        return this.questionDao.insert(question);
+
+
     }
 
     /**
@@ -61,9 +83,8 @@ public class QuestionServiceImpl implements QuestionService {
      * @return 实例对象
      */
     @Override
-    public Question update(Question question) {
-        this.questionDao.update(question);
-        return this.queryById(question.getId());
+    public int update(Question question) {
+        return this.questionDao.update(question);
     }
 
     /**
@@ -75,5 +96,15 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public boolean deleteById(Integer id) {
         return this.questionDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public int deleteByIds(String ids) {
+        return questionDao.deleteByIds(Convert.toIntArray(ids));
+    }
+
+    @Override
+    public List<Question> findQuestionList(Question question) {
+        return questionDao.queryAll(question);
     }
 }

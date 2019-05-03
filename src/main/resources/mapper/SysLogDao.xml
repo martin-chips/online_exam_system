@@ -3,53 +3,44 @@
 <mapper namespace="com.dimple.dao.SysLogDao">
 
     <resultMap type="com.dimple.entity.SysLog" id="SysLogMap">
-        <result property="id" column="id" />
-        <result property="type" column="type" />
-        <result property="title" column="title" />
-        <result property="remoteAddr" column="remote_addr" />
-        <result property="username" column="username" />
-        <result property="requestUri" column="request_uri" />
-        <result property="httpMethod" column="http_method" />
-        <result property="classMethod" column="class_method" />
-        <result property="params" column="params" />
-        <result property="sessionId" column="session_id" />
-        <result property="response" column="response" />
-        <result property="useTime" column="use_time" />
-        <result property="browser" column="browser" />
-        <result property="area" column="area" />
-        <result property="province" column="province" />
-        <result property="city" column="city" />
-        <result property="isp" column="isp" />
-        <result property="exception" column="exception" />
-        <result property="createBy" column="create_by" />
-        <result property="createDate" column="create_date" />
-        <result property="updateBy" column="update_by" />
-        <result property="updateDate" column="update_date" />
-        <result property="remarks" column="remarks" />
-        <result property="delFlag" column="del_flag" />
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="title" column="title"/>
+        <result property="remoteAddr" column="remote_addr"/>
+        <result property="username" column="username"/>
+        <result property="requestUri" column="request_uri"/>
+        <result property="httpMethod" column="http_method"/>
+        <result property="classMethod" column="class_method"/>
+        <result property="data" column="data"/>
+        <result property="sessionId" column="session_id"/>
+        <result property="response" column="response"/>
+        <result property="useTime" column="use_time"/>
+        <result property="browser" column="browser"/>
+        <result property="area" column="area"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+        <result property="isp" column="isp"/>
+        <result property="exception" column="exception"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="remarks" column="remarks"/>
+        <result property="delFlag" column="del_flag"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="SysLogMap">
-        select
-          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
-        from my_exam_test.sys_log
-        where id = #{id}
-    </select>
-
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="SysLogMap">
-        select
-          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
-        from my_exam_test.sys_log
-        limit #{offset}, #{limit}
+       select  id, type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response, use_time, browser, area, province, city, isp, "exception", create_by, create_date, update_by, update_date, remarks, del_flag from sys_log where id=#{id}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="SysLogMap">
         select
-          id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag
-        from my_exam_test.sys_log
+        id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response,
+        use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date,
+        remarks, del_flag
+        from sys_log
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -128,7 +119,7 @@
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into my_exam_test.sys_log(type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag)
+        insert into my_exam_test.sys_log(type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag)
         values (#{type}, #{title}, #{remoteAddr}, #{username}, #{requestUri}, #{httpMethod}, #{classMethod}, #{params}, #{sessionId}, #{response}, #{useTime}, #{browser}, #{area}, #{province}, #{city}, #{isp}, #{exception}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate}, #{remarks}, #{delFlag})
     </insert>
 
@@ -211,7 +202,13 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from my_exam_test.sys_log where id = #{id}
+        delete from sys_log where id = #{id}
+    </delete>
+    <delete id="deleteByIds">
+        delete from sys_log where id in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

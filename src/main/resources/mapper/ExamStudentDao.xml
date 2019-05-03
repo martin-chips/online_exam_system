@@ -16,13 +16,6 @@
         where es_id = #{esId}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="ExamStudentMap">
-        select
-          es_id, student_id, exam_id
-        from my_exam_test.exam_student
-        limit #{offset}, #{limit}
-    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamStudentMap">

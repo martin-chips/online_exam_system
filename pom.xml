@@ -30,9 +30,67 @@
         <fastjson.version>1.2.41</fastjson.version>
         <commons-codec.version>1.10</commons-codec.version>
 
+        <!-- 日志版本号 -->
+        <slf4j.version>1.7.21</slf4j.version>
+        <log4j.version>1.2.17</log4j.version>
+
+        <!-- JSP相关版本号 -->
+        <jstl.version>1.2</jstl.version>
+        <servlet-api.version>2.5</servlet-api.version>
+        <jsp-api.version>2.0</jsp-api.version>
+
     </properties>
 
     <dependencies>
+
+        <!-- ##### 日志 ##### -->
+        <!-- 桥接包,用slf4j顶上spring-core包中被排除掉的commons-logging -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- slf4j的核心包(它只是一套接口) -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- slf4j对log4j12的支持包,把slf4j的接口转嫁到log4j上去实现 -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-log4j12</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- log4j的核心包(它才是真正干活的日志框架) -->
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!-- ##### jsp相关 ##### -->
+        <!-- JSP标准标签库 -->
+        <dependency>
+            <groupId>jstl</groupId>
+            <artifactId>jstl</artifactId>
+            <version>${jstl.version}</version>
+        </dependency>
+        <!-- servlet-api和jsp-api都是由tomcat等servlet容器负责提供的包,这里引入只用于开发,不进行打包 -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <version>${servlet-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>jsp-api</artifactId>
+            <version>${jsp-api.version}</version>
+            <scope>provided</scope>
+        </dependency>
+
+
         <dependency>
             <groupId>commons-codec</groupId>
             <artifactId>commons-codec</artifactId>

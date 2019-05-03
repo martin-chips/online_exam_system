@@ -1,6 +1,7 @@
 package com.dimple.service;
 
 import com.dimple.entity.Question;
+
 import java.util.List;
 
 /**
@@ -20,21 +21,12 @@ public interface QuestionService {
     Question queryById(Integer id);
 
     /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<Question> queryAllByLimit(int offset, int limit);
-
-    /**
      * 新增数据
      *
      * @param question 实例对象
      * @return 实例对象
      */
-    Question insert(Question question);
+    int insert(Question question);
 
     /**
      * 修改数据
@@ -42,7 +34,7 @@ public interface QuestionService {
      * @param question 实例对象
      * @return 实例对象
      */
-    Question update(Question question);
+    int update(Question question);
 
     /**
      * 通过主键删除数据
@@ -52,4 +44,19 @@ public interface QuestionService {
      */
     boolean deleteById(Integer id);
 
+    /**
+     * 根据Id删除question
+     *
+     * @param ids 需要删除的id的集合
+     * @return 受影响的行数
+     */
+    int deleteByIds(String ids);
+
+    /**
+     * 查询集合
+     *
+     * @param question 问题
+     * @return 集合
+     */
+    List<Question> findQuestionList(Question question);
 }

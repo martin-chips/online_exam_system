@@ -20,15 +20,6 @@ public interface NoticeDao {
      */
     Notice queryById(Integer noticeId);
 
-    /**
-     * 查询指定行数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<Notice> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
-
 
     /**
      * 通过实体作为筛选条件查询
@@ -62,4 +53,10 @@ public interface NoticeDao {
      */
     int deleteById(Integer noticeId);
 
+    /**
+     * 批量删除
+     * @param ids
+     * @return
+     */
+    int deleteByIds(Integer[] ids);
 }

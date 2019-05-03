@@ -121,13 +121,13 @@ public class UserRealm extends AuthorizingRealm {
     @Data
     public static class ShiroUser implements Serializable {
         private static final long serialVersionUID = -1373760761780840081L;
-        public Long id;
+        public Integer id;
         public String loginName;
         public String nickName;
         public String icon;
         public String userType;
 
-        public ShiroUser(Long id, String loginName, String nickName, String icon, String userType) {
+        public ShiroUser(Integer id, String loginName, String nickName, String icon, String userType) {
             this.id = id;
             this.loginName = loginName;
             this.nickName = nickName;

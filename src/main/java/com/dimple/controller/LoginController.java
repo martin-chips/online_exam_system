@@ -53,7 +53,7 @@ public class LoginController {
 
     @PostMapping("/login")
     @ResponseBody
-    public RestResponse login(String password, String username, String rememberMe, HttpServletRequest request, Model model) {
+    public RestResponse login(String password, String username, String rememberMe, HttpServletRequest request) {
         //获取验证码
         String code = request.getParameter("code");
         if (StringUtils.isBlank(code)) {
@@ -93,6 +93,7 @@ public class LoginController {
                         map.put("url", "index");
                     }
                 }
+                session.setAttribute("user", SecurityUtils.getSubject());
             } catch (IncorrectCredentialsException e) {
                 errorMsg = "登录密码错误.";
             } catch (ExcessiveAttemptsException e) {

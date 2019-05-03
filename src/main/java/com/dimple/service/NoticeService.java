@@ -1,6 +1,7 @@
 package com.dimple.service;
 
 import com.dimple.entity.Notice;
+
 import java.util.List;
 
 /**
@@ -19,14 +20,7 @@ public interface NoticeService {
      */
     Notice queryById(Integer noticeId);
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<Notice> queryAllByLimit(int offset, int limit);
+
 
     /**
      * 新增数据
@@ -34,7 +28,7 @@ public interface NoticeService {
      * @param notice 实例对象
      * @return 实例对象
      */
-    Notice insert(Notice notice);
+    int insert(Notice notice);
 
     /**
      * 修改数据
@@ -42,7 +36,7 @@ public interface NoticeService {
      * @param notice 实例对象
      * @return 实例对象
      */
-    Notice update(Notice notice);
+    int update(Notice notice);
 
     /**
      * 通过主键删除数据
@@ -52,4 +46,17 @@ public interface NoticeService {
      */
     boolean deleteById(Integer noticeId);
 
+    /**
+     * 批量删除id
+     * @param ids 需要删除的id
+     * @return 受影响的行数
+     */
+    int deleteByIds(String ids);
+
+    /**
+     * 批量获取notice集合
+     * @param notice
+     * @return
+     */
+    List<Notice> findNoticeList(Notice notice);
 }

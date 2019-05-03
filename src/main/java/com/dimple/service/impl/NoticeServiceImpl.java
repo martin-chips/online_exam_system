@@ -3,6 +3,7 @@ package com.dimple.service.impl;
 import com.dimple.entity.Notice;
 import com.dimple.dao.NoticeDao;
 import com.dimple.service.NoticeService;
+import com.dimple.utils.Convert;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,17 +31,6 @@ public class NoticeServiceImpl implements NoticeService {
         return this.noticeDao.queryById(noticeId);
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<Notice> queryAllByLimit(int offset, int limit) {
-        return this.noticeDao.queryAllByLimit(offset, limit);
-    }
 
     /**
      * 新增数据
@@ -49,9 +39,9 @@ public class NoticeServiceImpl implements NoticeService {
      * @return 实例对象
      */
     @Override
-    public Notice insert(Notice notice) {
-        this.noticeDao.insert(notice);
-        return notice;
+    public int insert(Notice notice) {
+        return this.noticeDao.insert(notice);
+
     }
 
     /**
@@ -61,9 +51,8 @@ public class NoticeServiceImpl implements NoticeService {
      * @return 实例对象
      */
     @Override
-    public Notice update(Notice notice) {
-        this.noticeDao.update(notice);
-        return this.queryById(notice.getNoticeId());
+    public int update(Notice notice) {
+        return this.noticeDao.update(notice);
     }
 
     /**
@@ -76,4 +65,15 @@ public class NoticeServiceImpl implements NoticeService {
     public boolean deleteById(Integer noticeId) {
         return this.noticeDao.deleteById(noticeId) > 0;
     }
+
+    @Override
+    public int deleteByIds(String ids) {
+        return noticeDao.deleteByIds(Convert.toIntArray(ids));
+    }
+
+    @Override
+    public List<Notice> findNoticeList(Notice notice) {
+        return noticeDao.queryAll(notice);
+    }
+
 }

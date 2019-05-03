@@ -3,69 +3,61 @@
 <mapper namespace="com.dimple.dao.ExamDao">
 
     <resultMap type="com.dimple.entity.Exam" id="ExamMap">
-        <result property="examId" column="exam_id" />
-        <result property="examName" column="exam_name" />
-        <result property="examStartDate" column="exam_start_date" />
-        <result property="examLastTime" column="exam_last_time" />
-        <result property="createBy" column="create_by" />
-        <result property="createDate" column="create_date" />
-        <result property="updateBy" column="update_by" />
-        <result property="updateDate" column="update_date" />
+        <result property="examId" column="exam_id"/>
+        <result property="examName" column="exam_name"/>
+        <result property="examStartDate" column="exam_start_date"/>
+        <result property="examLastTime" column="exam_last_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ExamMap">
         select
           exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
-        from my_exam_test.exam
+        from exam
         where exam_id = #{examId}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="ExamMap">
-        select
-          exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
-        from my_exam_test.exam
-        limit #{offset}, #{limit}
-    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">
         select
-          exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
-        from my_exam_test.exam
+        exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
+        from exam
         <where>
-            <if test="examId != null">
-                and exam_id = #{examId}
-            </if>
             <if test="examName != null and examName != ''">
                 and exam_name = #{examName}
-            </if>
-            <if test="examStartDate != null">
-                and exam_start_date = #{examStartDate}
-            </if>
-            <if test="examLastTime != null">
-                and exam_last_time = #{examLastTime}
             </if>
             <if test="createBy != null">
                 and create_by = #{createBy}
             </if>
-            <if test="createDate != null">
-                and create_date = #{createDate}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
-            <if test="updateBy != null">
-                and update_by = #{updateBy}
-            </if>
-            <if test="updateDate != null">
-                and update_date = #{updateDate}
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="examId" useGeneratedKeys="true">
-        insert into my_exam_test.exam(exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date)
-        values (#{examName}, #{examStartDate}, #{examLastTime}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate})
+        insert into exam(
+        <if test="examName != null and examName != ''">exam_name,</if>
+        <if test="examStartDate != null and examStartDate != ''">exam_start_date,</if>
+        <if test="examLastTime != null and examLastTime != ''">exam_last_time,</if>
+        <if test="create_by != null and create_by != ''">create_by,</if>
+        create_date
+        )values(
+        <if test="examName != null and examName != ''">#{examName},</if>
+        <if test="examStartDate != null and examStartDate != ''">#{examStartDate},</if>
+        <if test="examLastTime != null and examLastTime != ''">#{examLastTime},</if>
+        <if test="create_by != null and create_by != ''">#{create_by},</if>
+        sysdate()
+        )
     </insert>
 
     <!--通过主键修改数据-->
@@ -81,18 +73,10 @@
             <if test="examLastTime != null">
                 exam_last_time = #{examLastTime},
             </if>
-            <if test="createBy != null">
-                create_by = #{createBy},
-            </if>
-            <if test="createDate != null">
-                create_date = #{createDate},
-            </if>
             <if test="updateBy != null">
                 update_by = #{updateBy},
             </if>
-            <if test="updateDate != null">
-                update_date = #{updateDate},
-            </if>
+            update_date = sysdate()
         </set>
         where exam_id = #{examId}
     </update>
@@ -100,6 +84,12 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from my_exam_test.exam where exam_id = #{examId}
+    </delete>
+    <delete id="deleteByIds">
+        delete from exam where exam_id in
+        <foreach collection="array" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

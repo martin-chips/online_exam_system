@@ -3,6 +3,7 @@ package com.dimple.service.impl;
 import com.dimple.entity.Exam;
 import com.dimple.dao.ExamDao;
 import com.dimple.service.ExamService;
+import com.dimple.utils.Convert;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -30,17 +31,6 @@ public class ExamServiceImpl implements ExamService {
         return this.examDao.queryById(examId);
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<Exam> queryAllByLimit(int offset, int limit) {
-        return this.examDao.queryAllByLimit(offset, limit);
-    }
 
     /**
      * 新增数据
@@ -49,9 +39,8 @@ public class ExamServiceImpl implements ExamService {
      * @return 实例对象
      */
     @Override
-    public Exam insert(Exam exam) {
-        this.examDao.insert(exam);
-        return exam;
+    public int insert(Exam exam) {
+        return this.examDao.insert(exam);
     }
 
     /**
@@ -61,9 +50,8 @@ public class ExamServiceImpl implements ExamService {
      * @return 实例对象
      */
     @Override
-    public Exam update(Exam exam) {
-        this.examDao.update(exam);
-        return this.queryById(exam.getExamId());
+    public int update(Exam exam) {
+        return this.examDao.update(exam);
     }
 
     /**
@@ -75,5 +63,15 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public boolean deleteById(Integer examId) {
         return this.examDao.deleteById(examId) > 0;
+    }
+
+    @Override
+    public int deleteByIds(String ids) {
+        return examDao.deleteByIds(Convert.toIntArray(ids));
+    }
+
+    @Override
+    public List<Exam> findExamList(Exam exam) {
+        return examDao.queryAll(exam);
     }
 }

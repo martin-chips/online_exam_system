@@ -1,5 +1,8 @@
 package com.dimple.entity;
 
+import com.dimple.utils.BaseEntity;
+import lombok.Data;
+
 import java.io.Serializable;
 
 /**
@@ -8,9 +11,10 @@ import java.io.Serializable;
  * @author makejava
  * @since 2019-05-01 11:39:03
  */
-public class Question implements Serializable {
+@Data
+public class Question extends BaseEntity {
     private static final long serialVersionUID = 850681683013092951L;
-    
+
     private Integer id;
     //问题类型：1表示单选，2表示多选，3表示天空，4表示判断，5表示问答
     private String type;
@@ -27,79 +31,21 @@ public class Question implements Serializable {
     //答案
     private String answer;
     //解析
-    private String analyze;
+    private String analyse;
+    //分值
+    private Double score;
 
+    /**
+     * 设置选中心项目
+     */
+    //单选或者多选的选中
+    private String optionAChecked;
+    private String optionBChecked;
+    private String optionCChecked;
+    private String optionDChecked;
+    //判断题的选中
+    private String judgeAnswer1;//正确
+    private String judgeAnswer0;//错误
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getOptionA() {
-        return optionA;
-    }
-
-    public void setOptionA(String optionA) {
-        this.optionA = optionA;
-    }
-
-    public String getOptionB() {
-        return optionB;
-    }
-
-    public void setOptionB(String optionB) {
-        this.optionB = optionB;
-    }
-
-    public String getOptionC() {
-        return optionC;
-    }
-
-    public void setOptionC(String optionC) {
-        this.optionC = optionC;
-    }
-
-    public String getOptionD() {
-        return optionD;
-    }
-
-    public void setOptionD(String optionD) {
-        this.optionD = optionD;
-    }
-
-    public String getAnswer() {
-        return answer;
-    }
-
-    public void setAnswer(String answer) {
-        this.answer = answer;
-    }
-
-    public String getAnalyze() {
-        return analyze;
-    }
-
-    public void setAnalyze(String analyze) {
-        this.analyze = analyze;
-    }
 
 }

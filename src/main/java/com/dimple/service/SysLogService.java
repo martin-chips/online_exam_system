@@ -17,16 +17,8 @@ public interface SysLogService {
      * @param id 主键
      * @return 实例对象
      */
-    SysLog queryById(Long id);
+    SysLog queryById(Integer id);
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    List<SysLog> queryAllByLimit(int offset, int limit);
 
     /**
      * 新增数据
@@ -51,5 +43,14 @@ public interface SysLogService {
      * @return 是否成功
      */
     boolean deleteById(Long id);
+
+    /**
+     * 批量获取log
+     * @param sysLog
+     * @return
+     */
+    List<SysLog> selectLogList(SysLog sysLog);
+
+    int deleteSysLogByIds(String ids);
 
 }

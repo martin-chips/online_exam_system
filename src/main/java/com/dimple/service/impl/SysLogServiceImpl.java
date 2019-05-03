@@ -3,6 +3,7 @@ package com.dimple.service.impl;
 import com.dimple.entity.SysLog;
 import com.dimple.dao.SysLogDao;
 import com.dimple.service.SysLogService;
+import com.dimple.utils.Convert;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -26,21 +27,10 @@ public class SysLogServiceImpl implements SysLogService {
      * @return 实例对象
      */
     @Override
-    public SysLog queryById(Long id) {
+    public SysLog queryById(Integer id) {
         return this.sysLogDao.queryById(id);
     }
 
-    /**
-     * 查询多条数据
-     *
-     * @param offset 查询起始位置
-     * @param limit 查询条数
-     * @return 对象列表
-     */
-    @Override
-    public List<SysLog> queryAllByLimit(int offset, int limit) {
-        return this.sysLogDao.queryAllByLimit(offset, limit);
-    }
 
     /**
      * 新增数据
@@ -75,5 +65,15 @@ public class SysLogServiceImpl implements SysLogService {
     @Override
     public boolean deleteById(Long id) {
         return this.sysLogDao.deleteById(id) > 0;
+    }
+
+    @Override
+    public List<SysLog> selectLogList(SysLog sysLog) {
+        return sysLogDao.queryAll(sysLog);
+    }
+
+    @Override
+    public int deleteSysLogByIds(String ids) {
+        return sysLogDao.deleteByIds(Convert.toIntArray(ids));
     }
 }

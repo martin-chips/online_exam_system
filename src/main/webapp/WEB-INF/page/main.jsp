@@ -3,7 +3,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>首页--layui后台管理模板 2.0</title>
+    <title>首页</title>
     <meta name="renderer" content="webkit">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,7 +15,7 @@
 </head>
 <body class="childrenBody">
 <blockquote class="layui-elem-quote layui-bg-green">
-    <div id="nowTime">ssss</div>
+    <div id="nowTime"></div>
 </blockquote>
 <div class="layui-row layui-col-space10 panel_box">
     <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
@@ -68,31 +68,27 @@
             <tbody>
             <tr>
                 <td>当前版本</td>
-                <td class="version"></td>
+                <td class="version">V1.0</td>
             </tr>
             <tr>
                 <td>开发作者</td>
-                <td class="author"></td>
+                <td class="author">黄慧</td>
             </tr>
             <tr>
                 <td>网站首页</td>
-                <td class="homePage"></td>
+                <td class="homePage">/index</td>
             </tr>
             <tr>
                 <td>服务器环境</td>
-                <td class="server"></td>
+                <td class="server">Windows 10</td>
             </tr>
             <tr>
                 <td>数据库版本</td>
-                <td class="dataBase"></td>
+                <td class="dataBase">MySQL5.7</td>
             </tr>
             <tr>
                 <td>最大上传限制</td>
-                <td class="maxUpload"></td>
-            </tr>
-            <tr>
-                <td>当前用户权限</td>
-                <td class="userRights"></td>
+                <td class="maxUpload">2M</td>
             </tr>
             </tbody>
         </table>

@@ -3,7 +3,6 @@ package com.dimple.dao;
 import com.dimple.entity.SysUser;
 import org.apache.ibatis.annotations.Param;
 
-import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -20,16 +19,7 @@ public interface SysUserDao {
      * @param id 主键
      * @return 实例对象
      */
-    SysUser queryById(Long id);
-
-    /**
-     * 查询指定行数据
-     *
-     * @param offset 查询起始位置
-     * @param limit  查询条数
-     * @return 对象列表
-     */
-    List<SysUser> queryAllByLimit(@Param("offset") int offset, @Param("limit") int limit);
+    SysUser selectUserById(Integer id);
 
 
     /**
@@ -71,4 +61,12 @@ public interface SysUserDao {
      * @return 用户
      */
     SysUser findSysUserByLoginName(String loginName);
+
+    /**
+     * 根据Id批量删除用户
+     *
+     * @param ids id的集合
+     * @return 受影响的行数
+     */
+    int deleteByIds(Integer[] ids);
 }

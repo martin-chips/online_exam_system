@@ -2,9 +2,16 @@ package com.dimple.controller;
 
 import com.dimple.entity.Question;
 import com.dimple.service.QuestionService;
+import com.dimple.utils.web.AjaxResult;
+import com.dimple.utils.web.BaseController;
+import com.dimple.utils.web.TableDataInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 问题表(Question)表控制层
@@ -12,24 +19,52 @@ import javax.annotation.Resource;
  * @author makejava
  * @since 2019-05-01 11:39:04
  */
-@RestController
-@RequestMapping("question")
-public class QuestionController {
-    /**
-     * 服务对象
-     */
-    @Resource
-    private QuestionService questionService;
+@Controller
+@RequestMapping("onlineExam/question")
+public class QuestionController extends BaseController {
 
-    /**
-     * 通过主键查询单条数据
-     *
-     * @param id 主键
-     * @return 单条数据
-     */
-    @GetMapping("selectOne")
-    public Question selectOne(Integer id) {
-        return this.questionService.queryById(id);
+    @Autowired
+    QuestionService questionService;
+
+    @GetMapping()
+    public String question() {
+        return "onlineExam/question/question";
     }
 
+    @GetMapping("/list")
+    @ResponseBody
+    public TableDataInfo list(Question question) {
+        startPage();
+        List<Question> questions = questionService.findQuestionList(question);
+        return getDataTable(questions);
+    }
+
+    @GetMapping("/add")
+    public String add() {
+        return "onlineExam/question/add";
+    }
+
+    @PostMapping("/add")
+    @ResponseBody
+    public AjaxResult addSave(Question question) {
+        return toAjax(questionService.insert(question));
+    }
+
+    @GetMapping("/update/{id}")
+    public String update(@PathVariable Integer id, Model model) {
+        model.addAttribute("question", questionService.queryById(id));
+        return "/onlineExam/question/update";
+    }
+
+    @PutMapping("/update")
+    @ResponseBody
+    public AjaxResult updateSave(Question question) {
+        return toAjax(questionService.update(question));
+    }
+
+    @DeleteMapping()
+    @ResponseBody
+    public AjaxResult delete(String ids) {
+        return toAjax(questionService.deleteByIds(ids));
+    }
 }

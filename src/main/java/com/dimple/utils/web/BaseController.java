@@ -1,10 +1,13 @@
 package com.dimple.utils.web;
 
+import com.dimple.entity.SysUser;
+import com.dimple.shiro.UserRealm;
 import com.dimple.utils.DateUtils;
 import com.dimple.utils.SqlUtil;
 import com.dimple.utils.StringUtils;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 
@@ -28,6 +31,11 @@ public class BaseController {
                 setValue(DateUtils.parseDate(text));
             }
         });
+    }
+
+    public static UserRealm.ShiroUser getSysUser() {
+        UserRealm.ShiroUser obj = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
+        return obj;
     }
 
     /**

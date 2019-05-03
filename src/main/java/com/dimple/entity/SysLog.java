@@ -16,7 +16,7 @@ import java.io.Serializable;
 public class SysLog extends BaseEntity {
     private static final long serialVersionUID = -58935303640827809L;
     //编号
-    private Long id;
+    private int id;
     //请求类型
     private String type;
     //日志标题
@@ -32,7 +32,7 @@ public class SysLog extends BaseEntity {
     //请求类型.方法
     private String classMethod;
     //操作提交的数据
-    private String params;
+    private String data;
     //sessionId
     private String sessionId;
     //返回内容

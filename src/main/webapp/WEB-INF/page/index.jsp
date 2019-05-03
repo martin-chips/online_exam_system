@@ -44,11 +44,11 @@
                                 <cite>系统管理</cite>
                             </a>
                         </dd>
-                        <dd data-menu="seraphApi">
-                            <a href="javascript:;"><i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>
-                                <cite>使用文档</cite>
-                            </a>
-                        </dd>
+                        <%--                        <dd data-menu="seraphApi">--%>
+                        <%--                            <a href="javascript:;"><i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>--%>
+                        <%--                                <cite>使用文档</cite>--%>
+                        <%--                            </a>--%>
+                        <%--                        </dd>--%>
                     </dl>
                 </li>
             </ul>
@@ -71,12 +71,12 @@
                         <cite>系统设置</cite>
                     </a>
                 </li>
-                <li class="layui-nav-item" data-menu="seraphApi" pc>
-                    <a href="javascript:;">
-                        <i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>
-                        <cite>使用文档</cite>
-                    </a>
-                </li>
+                <%--                <li class="layui-nav-item" data-menu="seraphApi" pc>--%>
+                <%--                    <a href="javascript:;">--%>
+                <%--                        <i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>--%>
+                <%--                        <cite>使用文档</cite>--%>
+                <%--                    </a>--%>
+                <%--                </li>--%>
             </ul>
             <!-- 顶部右侧菜单 -->
             <ul class="layui-nav top_menu">
@@ -100,13 +100,13 @@
                     </a>
                     <dl class="layui-nav-child">
                         <dd>
-                            <a href="javascript:;" data-url="page/user/userInfo.html">
+                            <a href="javascript:;" data-url="/userInfo">
                                 <i class="seraph icon-ziliao" data-icon="icon-ziliao"></i>
                                 <cite>个人资料</cite>
                             </a>
                         </dd>
                         <dd>
-                            <a href="javascript:;" data-url="page/user/changePwd.html">
+                            <a href="javascript:;" data-url="/changePassword">
                                 <i class="seraph icon-xiugai" data-icon="icon-xiugai"></i>
                                 <cite>修改密码</cite>
                             </a>

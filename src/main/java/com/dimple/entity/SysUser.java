@@ -18,7 +18,7 @@ import java.util.Set;
 public class SysUser extends BaseEntity {
     private static final long serialVersionUID = 421015445214579434L;
     //用户ID
-    private Long id;
+    private Integer id;
     //登录名
     private String loginName;
     //昵称

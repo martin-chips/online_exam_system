@@ -5,6 +5,12 @@
       "icon": "icon-text",
       "href": "page/news/newsList.html",
       "spread": false
+    },
+    {
+      "title": "我的成绩",
+      "icon": "icon-text",
+      "href": "/",
+      "spread": false
     }
   ],
   "memberCenter": [
@@ -17,7 +23,7 @@
     {
       "title": "试题管理",
       "icon": "icon-vip",
-      "href": "page/user/userGrade.html",
+      "href": "/onlineExam/question",
       "spread": false
     },
     {
@@ -41,12 +47,6 @@
   ],
   "systemeSttings": [
     {
-      "title": "班级管理",
-      "icon": "icon-vip",
-      "href": "/system/user/",
-      "spread": false
-    },
-    {
       "title": "用户管理",
       "icon": "&#xe631;",
       "href": "system/user",
@@ -55,51 +55,19 @@
     {
       "title": "公告管理",
       "icon": "&#xe631;",
-      "href": "page/systemSetting/basicParameter.html",
-      "spread": false
-    },
-    {
-      "title": "系统基本参数",
-      "icon": "&#xe631;",
-      "href": "page/systemSetting/basicParameter.html",
+      "href": "/system/notice",
       "spread": false
     },
     {
       "title": "系统日志",
       "icon": "icon-log",
-      "href": "page/systemSetting/logs.html",
+      "href": "/system/log",
       "spread": false
     },
     {
       "title": "Druid数据监控",
       "icon": "icon-log",
-      "href": "page/systemSetting/logs.html",
-      "spread": false
-    },
-    {
-      "title": "图标管理",
-      "icon": "&#xe857;",
-      "href": "page/systemSetting/icons.html",
-      "spread": false
-    }
-  ],
-  "seraphApi": [
-    {
-      "title": "三级联动模块",
-      "icon": "icon-mokuai",
-      "href": "page/doc/addressDoc.html",
-      "spread": false
-    },
-    {
-      "title": "bodyTab模块",
-      "icon": "icon-mokuai",
-      "href": "page/doc/bodyTabDoc.html",
-      "spread": false
-    },
-    {
-      "title": "三级菜单",
-      "icon": "icon-mokuai",
-      "href": "page/doc/navDoc.html",
+      "href": "/druid/index",
       "spread": false
     }
   ]

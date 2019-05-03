@@ -3,73 +3,82 @@
 <mapper namespace="com.dimple.dao.QuestionDao">
 
     <resultMap type="com.dimple.entity.Question" id="QuestionMap">
-        <result property="id" column="id" />
-        <result property="type" column="type" />
-        <result property="title" column="title" />
-        <result property="optionA" column="option_a" />
-        <result property="optionB" column="option_b" />
-        <result property="optionC" column="option_c" />
-        <result property="optionD" column="option_d" />
-        <result property="answer" column="answer" />
-        <result property="analyze" column="analyze" />
+        <result property="id" column="id"/>
+        <result property="type" column="type"/>
+        <result property="title" column="title"/>
+        <result property="optionA" column="option_a"/>
+        <result property="optionB" column="option_b"/>
+        <result property="optionC" column="option_c"/>
+        <result property="optionD" column="option_d"/>
+        <result property="answer" column="answer"/>
+        <result property="analyse" column="analyse"/>
+        <result property="score" column="score"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="QuestionMap">
         select
-          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
-        from my_exam_test.question
+          id, type, title, option_a, option_b, option_c, option_d, answer, analyse,score,create_by,create_date,update_by,update_date
+        from question
         where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="QuestionMap">
-        select
-          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
-        from my_exam_test.question
-        limit #{offset}, #{limit}
-    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="QuestionMap">
         select
-          id, type, title, option_a, option_b, option_c, option_d, answer, analyze
-        from my_exam_test.question
+        id, type, title, option_a, option_b, option_c, option_d, answer, analyse,score,create_date
+        from question
         <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
             <if test="type != null and type != ''">
                 and type = #{type}
             </if>
             <if test="title != null and title != ''">
                 and title = #{title}
             </if>
-            <if test="optionA != null and optionA != ''">
-                and option_a = #{optionA}
+            <if test="analyse != null and analyse != ''">
+                and analyse = #{analyse}
             </if>
-            <if test="optionB != null and optionB != ''">
-                and option_b = #{optionB}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
-            <if test="optionC != null and optionC != ''">
-                and option_c = #{optionC}
-            </if>
-            <if test="optionD != null and optionD != ''">
-                and option_d = #{optionD}
-            </if>
-            <if test="answer != null and answer != ''">
-                and answer = #{answer}
-            </if>
-            <if test="analyze != null and analyze != ''">
-                and analyze = #{analyze}
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into my_exam_test.question(type, title, option_a, option_b, option_c, option_d, answer, analyze)
-        values (#{type}, #{title}, #{optionA}, #{optionB}, #{optionC}, #{optionD}, #{answer}, #{analyze})
+        insert into question(
+        <if test="type != null and type != ''">type,</if>
+        <if test="title != null and title != ''">title,</if>
+        <if test="optionA != null and optionA != ''">option_a,</if>
+        <if test="optionB != null and optionB != ''">option_b,</if>
+        <if test="optionC != null and optionC != ''">option_c,</if>
+        <if test="optionD != null and optionD != ''">option_d,</if>
+        <if test="answer != null and answer != ''">answer,</if>
+        <if test="analyse != null and analyse != ''">analyse,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="score != null and score != ''">score,</if>
+        create_date
+        )values(
+        <if test="type != null and type != ''">#{type},</if>
+        <if test="title != null and title != ''">#{title},</if>
+        <if test="optionA != null and optionA != ''">#{optionA},</if>
+        <if test="optionB != null and optionB != ''">#{optionB},</if>
+        <if test="optionC != null and optionC != ''">#{optionC},</if>
+        <if test="optionD != null and optionD != ''">#{optionD},</if>
+        <if test="answer != null and answer != ''">#{answer},</if>
+        <if test="analyse != null and analyse != ''">#{analyse},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="score != null and score != ''">#{score},</if>
+        sysdate()
+        )
     </insert>
 
     <!--通过主键修改数据-->
@@ -97,9 +106,13 @@
             <if test="answer != null and answer != ''">
                 answer = #{answer},
             </if>
-            <if test="analyze != null and analyze != ''">
-                analyze = #{analyze},
+            <if test="analyse != null and analyse != ''">
+                analyse = #{analyse},
             </if>
+            <if test="score != null and score != ''">
+                score = #{score},
+            </if>
+            update_date = sysdate()
         </set>
         where id = #{id}
     </update>
@@ -107,6 +120,13 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from my_exam_test.question where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from question where id in
+        <foreach collection="array" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

@@ -3,64 +3,44 @@
 <mapper namespace="com.dimple.dao.SysUserDao">
 
     <resultMap type="com.dimple.entity.SysUser" id="SysUserMap">
-        <result property="id" column="id" />
-        <result property="loginName" column="login_name" />
-        <result property="nickName" column="nick_name" />
-        <result property="icon" column="icon" />
-        <result property="password" column="password" />
-        <result property="salt" column="salt" />
-        <result property="tel" column="tel" />
-        <result property="email" column="email" />
-        <result property="locked" column="locked" />
-        <result property="createDate" column="create_date" />
-        <result property="createBy" column="create_by" />
-        <result property="updateDate" column="update_date" />
-        <result property="updateBy" column="update_by" />
-        <result property="remarks" column="remarks" />
-        <result property="delFlag" column="del_flag" />
-        <result property="userType" column="user_type" />
+        <result property="id" column="id"/>
+        <result property="loginName" column="login_name"/>
+        <result property="nickName" column="nick_name"/>
+        <result property="icon" column="icon"/>
+        <result property="password" column="password"/>
+        <result property="salt" column="salt"/>
+        <result property="tel" column="tel"/>
+        <result property="email" column="email"/>
+        <result property="locked" column="locked"/>
+        <result property="createDate" column="create_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="remark" column="remark"/>
+        <result property="delFlag" column="del_flag"/>
+        <result property="userType" column="user_type"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="SysUserMap">
+    <select id="selectUserById" resultMap="SysUserMap">
         select
-          id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date, update_by, remarks, del_flag, user_type
-        from my_exam_test.sys_user
+          id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date, update_by, remark, del_flag, user_type
+        from sys_user
         where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="SysUserMap">
-        select
-          id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date, update_by, remarks, del_flag, user_type
-        from my_exam_test.sys_user
-        limit #{offset}, #{limit}
-    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="SysUserMap">
         select
-        id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date,
-        update_by, remarks, del_flag, user_type
-        from my_exam_test.sys_user
+        id, login_name, nick_name, icon, tel, email, locked, create_date, create_by, remark, del_flag, user_type
+        from sys_user
         <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
             <if test="loginName != null and loginName != ''">
                 and login_name = #{loginName}
             </if>
             <if test="nickName != null and nickName != ''">
                 and nick_name = #{nickName}
-            </if>
-            <if test="icon != null and icon != ''">
-                and icon = #{icon}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
-            </if>
-            <if test="salt != null and salt != ''">
-                and salt = #{salt}
             </if>
             <if test="tel != null and tel != ''">
                 and tel = #{tel}
@@ -71,20 +51,8 @@
             <if test="locked != null">
                 and locked = #{locked}
             </if>
-            <if test="createDate != null">
-                and create_date = #{createDate}
-            </if>
-            <if test="createBy != null">
-                and create_by = #{createBy}
-            </if>
-            <if test="updateDate != null">
-                and update_date = #{updateDate}
-            </if>
-            <if test="updateBy != null">
-                and update_by = #{updateBy}
-            </if>
-            <if test="remarks != null and remarks != ''">
-                and remarks = #{remarks}
+            <if test="remark != null and remark != ''">
+                and remark = #{remark}
             </if>
             <if test="delFlag != null">
                 and del_flag = #{delFlag}
@@ -92,23 +60,59 @@
             <if test="userType != null and userType != ''">
                 and user_type = #{userType}
             </if>
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+            </if>
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+            </if>
         </where>
     </select>
 
     <select id="findSysUserByLoginName" resultType="com.dimple.entity.SysUser">
-        select id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date, update_by, remarks, del_flag,user_type from sys_user where login_name=#{loginName}
+        select
+            id, login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, remark, del_flag,user_type
+        from sys_user
+         where
+          login_name=#{loginName}
     </select>
-
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into my_exam_test.sys_user(login_name, nick_name, icon, password, salt, tel, email, locked, create_date, create_by, update_date, update_by, remarks, del_flag, user_type)
-        values (#{loginName}, #{nickName}, #{icon}, #{password}, #{salt}, #{tel}, #{email}, #{locked}, #{createDate}, #{createBy}, #{updateDate}, #{updateBy}, #{remarks}, #{delFlag}, #{userType})
+        insert into sys_user(
+        <if test="loginName != null and loginName != ''">login_name,</if>
+        <if test="nickName != null and nickName != ''">nick_name,</if>
+        <if test="icon != null and icon != ''">icon,</if>
+        <if test="password != null and password != ''">password,</if>
+        <if test="salt != null and salt != ''">salt,</if>
+        <if test="tel != null and tel != ''">tel,</if>
+        <if test="email != null and email != ''">email,</if>
+        <if test="locked != null and locked != ''">locked,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="delFlag != null and delFlag != ''">del_flag,</if>
+        <if test="userType != null and userType != ''">user_type,</if>
+        create_date
+        )values(
+        <if test="loginName != null and loginName != ''">#{loginName},</if>
+        <if test="nickName != null and nickName != ''">#{nickName},</if>
+        <if test="icon != null and icon != ''">#{icon},</if>
+        <if test="password != null and password != ''">#{password},</if>
+        <if test="salt != null and salt != ''">#{salt},</if>
+        <if test="tel != null and tel != ''">#{tel},</if>
+        <if test="email != null and email != ''">#{email},</if>
+        <if test="locked != null and locked != ''">#{locked},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+        <if test="userType != null and userType != ''">#{userType},</if>
+        sysdate()
+        )
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update my_exam_test.sys_user
+        update sys_user
         <set>
             <if test="loginName != null and loginName != ''">
                 login_name = #{loginName},
@@ -134,20 +138,11 @@
             <if test="locked != null">
                 locked = #{locked},
             </if>
-            <if test="createDate != null">
-                create_date = #{createDate},
-            </if>
-            <if test="createBy != null">
-                create_by = #{createBy},
-            </if>
-            <if test="updateDate != null">
-                update_date = #{updateDate},
-            </if>
             <if test="updateBy != null">
                 update_by = #{updateBy},
             </if>
-            <if test="remarks != null and remarks != ''">
-                remarks = #{remarks},
+            <if test="remark != null and remark != ''">
+                remark = #{remark},
             </if>
             <if test="delFlag != null">
                 del_flag = #{delFlag},
@@ -155,13 +150,21 @@
             <if test="userType != null and userType != ''">
                 user_type = #{userType},
             </if>
+            update_date = sysdate()
         </set>
         where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from my_exam_test.sys_user where id = #{id}
+        delete from sys_user where id = #{id}
+    </delete>
+
+    <delete id="deleteByIds">
+        delete from sys_user where id in
+        <foreach collection="array" close=")" open="(" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>

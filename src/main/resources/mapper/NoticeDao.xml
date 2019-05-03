@@ -3,74 +3,66 @@
 <mapper namespace="com.dimple.dao.NoticeDao">
 
     <resultMap type="com.dimple.entity.Notice" id="NoticeMap">
-        <result property="noticeId" column="notice_id" />
-        <result property="title" column="title" />
-        <result property="content" column="content" />
-        <result property="type" column="type" />
-        <result property="createBy" column="create_by" />
-        <result property="createDate" column="create_date" />
-        <result property="updateBy" column="update_by" />
-        <result property="updateDate" column="update_date" />
+        <result property="noticeId" column="notice_id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="type" column="type"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateDate" column="update_date"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="NoticeMap">
         select
           notice_id, title, content, type, create_by, create_date, update_by, update_date
-        from my_exam_test.notice
+        from notice
         where notice_id = #{noticeId}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="NoticeMap">
-        select
-          notice_id, title, content, type, create_by, create_date, update_by, update_date
-        from my_exam_test.notice
-        limit #{offset}, #{limit}
-    </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="NoticeMap">
         select
         notice_id, title, content, type, create_by, create_date, update_by, update_date
-        from my_exam_test.notice
+        from notice
         <where>
-            <if test="noticeId != null">
-                and notice_id = #{noticeId}
-            </if>
             <if test="title != null and title != ''">
                 and title = #{title}
-            </if>
-            <if test="content != null and content != ''">
-                and content = #{content}
             </if>
             <if test="type != null and type != ''">
                 and type = #{type}
             </if>
-            <if test="createBy != null">
-                and create_by = #{createBy}
+            <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+                AND date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>
-            <if test="createDate != null">
-                and create_date = #{createDate}
-            </if>
-            <if test="updateBy != null">
-                and update_by = #{updateBy}
-            </if>
-            <if test="updateDate != null">
-                and update_date = #{updateDate}
+            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+                AND date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="noticeId" useGeneratedKeys="true">
-        insert into my_exam_test.notice(title, content, type, create_by, create_date, update_by, update_date)
-        values (#{title}, #{content}, #{type}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate})
+        insert into notice(
+        <if test="title != null and title != ''">title,</if>
+        <if test="content != null and content != ''">content,</if>
+        <if test="type != null and type != ''">type,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        create_date
+        )values(
+        <if test="title != null and title != ''">#{title},</if>
+        <if test="content != null and content != ''">#{content},</if>
+        <if test="type != null and type != ''">#{type},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        sysdate()
+        )
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update my_exam_test.notice
+        update notice
         <set>
             <if test="title != null and title != ''">
                 title = #{title},
@@ -81,25 +73,25 @@
             <if test="type != null and type != ''">
                 type = #{type},
             </if>
-            <if test="createBy != null">
-                create_by = #{createBy},
-            </if>
-            <if test="createDate != null">
-                create_date = #{createDate},
-            </if>
             <if test="updateBy != null">
                 update_by = #{updateBy},
             </if>
-            <if test="updateDate != null">
-                update_date = #{updateDate},
-            </if>
+            update_date = sysdate()
         </set>
         where notice_id = #{noticeId}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from my_exam_test.notice where notice_id = #{noticeId}
+        delete from notice where notice_id = #{noticeId}
+    </delete>
+
+
+    <delete id="deleteByIds">
+        delete from notice where notice_id in
+        <foreach collection="array" open="(" close=")" separator="," item="id">
+            #{id}
+        </foreach>
     </delete>
 
 </mapper>
