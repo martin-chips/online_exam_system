@@ -16,7 +16,7 @@
     <!--查询单个-->
     <select id="queryById" resultMap="ExamMap">
         select
-          exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
+          exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date,reviewer_id
         from exam
         where exam_id = #{examId}
     </select>
@@ -25,7 +25,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">
         select
-        exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date
+        exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date,reviewer_id
         from exam
         <where>
             <if test="examName != null and examName != ''">
@@ -47,15 +47,17 @@
     <insert id="insert" keyProperty="examId" useGeneratedKeys="true">
         insert into exam(
         <if test="examName != null and examName != ''">exam_name,</if>
-        <if test="examStartDate != null and examStartDate != ''">exam_start_date,</if>
+        <if test="examStartDate != null">exam_start_date,</if>
         <if test="examLastTime != null and examLastTime != ''">exam_last_time,</if>
-        <if test="create_by != null and create_by != ''">create_by,</if>
+        <if test="reviewerId != null and reviewerId != ''">reviewer_id,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
         create_date
         )values(
         <if test="examName != null and examName != ''">#{examName},</if>
-        <if test="examStartDate != null and examStartDate != ''">#{examStartDate},</if>
+        <if test="examStartDate != null ">#{examStartDate},</if>
         <if test="examLastTime != null and examLastTime != ''">#{examLastTime},</if>
-        <if test="create_by != null and create_by != ''">#{create_by},</if>
+        <if test="reviewerId != null and reviewerId != ''">#{reviewerId},</if>
+        <if test="createBy != null and createBy != ''">#{create_by},</if>
         sysdate()
         )
     </insert>

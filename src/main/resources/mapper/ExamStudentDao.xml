@@ -3,9 +3,9 @@
 <mapper namespace="com.dimple.dao.ExamStudentDao">
 
     <resultMap type="com.dimple.entity.ExamStudent" id="ExamStudentMap">
-        <result property="esId" column="es_id" />
-        <result property="studentId" column="student_id" />
-        <result property="examId" column="exam_id" />
+        <result property="esId" column="es_id"/>
+        <result property="studentId" column="student_id"/>
+        <result property="examId" column="exam_id"/>
     </resultMap>
 
     <!--查询单个-->
@@ -20,7 +20,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamStudentMap">
         select
-          es_id, student_id, exam_id
+        es_id, student_id, exam_id
         from my_exam_test.exam_student
         <where>
             <if test="esId != null">
@@ -58,6 +58,9 @@
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from my_exam_test.exam_student where es_id = #{esId}
+    </delete>
+    <delete id="deleteByExamId">
+        delete from exam_student where exam_id=#{examId}
     </delete>
 
 </mapper>

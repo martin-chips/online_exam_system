@@ -1,7 +1,10 @@
 package com.dimple.controller;
 
 import com.dimple.entity.Exam;
+import com.dimple.entity.SysUser;
 import com.dimple.service.ExamService;
+import com.dimple.service.SysLogService;
+import com.dimple.service.SysUserService;
 import com.dimple.utils.web.AjaxResult;
 import com.dimple.utils.web.BaseController;
 import com.dimple.utils.web.TableDataInfo;
@@ -14,10 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 试卷表(Exam)表控制层
- *
- * @author makejava
- * @since 2019-05-01 11:39:00
+ * 试卷管理
  */
 @Controller
 @RequestMapping("onlineExam/exam")
@@ -27,6 +27,8 @@ public class ExamController extends BaseController {
      */
     @Autowired
     private ExamService examService;
+    @Autowired
+    SysUserService sysUserService;
 
     @GetMapping()
     public String exam() {
@@ -34,6 +36,7 @@ public class ExamController extends BaseController {
     }
 
     @GetMapping("/list")
+    @ResponseBody
     public TableDataInfo list(Exam exam) {
         startPage();
         List<Exam> exams = examService.findExamList(exam);
@@ -41,7 +44,12 @@ public class ExamController extends BaseController {
     }
 
     @GetMapping("/add")
-    public String add() {
+    public String add(Model model) {
+        SysUser sysUser = new SysUser();
+        sysUser.setUserType("2");
+        model.addAttribute("trachers", sysUserService.selectUserList(sysUser));
+        sysUser.setUserType("3");
+        model.addAttribute("students", sysUserService.selectUserList(sysUser));
         return "onlineExam/exam/add";
     }
 
@@ -53,7 +61,22 @@ public class ExamController extends BaseController {
 
     @GetMapping("/update/{id}")
     public String update(@PathVariable Integer id, Model model) {
-        model.addAttribute("exam", examService.queryById(id));
+        Exam exam = examService.queryById(id);
+        model.addAttribute("exam", exam);
+        SysUser sysUser = new SysUser();
+        sysUser.setUserType("2");
+        model.addAttribute("trachers", sysUserService.selectUserList(sysUser));
+        sysUser.setUserType("3");
+        List<SysUser> studentList = sysUserService.selectUserList(sysUser);
+        Integer[] studentIds = exam.getStudentIds();
+        for (SysUser user : studentList) {
+            for (Integer studentId : studentIds) {
+                if (studentId == user.getId()) {
+                    user.setStudentCheckFlag(true);
+                }
+            }
+        }
+        model.addAttribute("students", studentList);
         return "onlineExam/exam/update";
     }
 

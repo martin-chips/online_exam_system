@@ -53,4 +53,11 @@ public interface ExamStudentDao {
      */
     int deleteById(Integer esId);
 
+    /**
+     * 根据考试的id删除记录
+     *
+     * @param examId
+     * @return
+     */
+    int deleteByExamId(Integer examId);
 }

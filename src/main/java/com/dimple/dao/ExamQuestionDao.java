@@ -62,4 +62,17 @@ public interface ExamQuestionDao {
      */
     int deleteById(Integer eqId);
 
+    /**
+     * 根据试卷的id删除与question的关联
+     * @param examId
+     * @return
+     */
+    int deleteByExamId(Integer examId);
+
+    /**
+     * 根据Exam的id查询出所有的examQuestion实体
+     * @param examId
+     * @return
+     */
+    List<ExamQuestion> selectExamQuestionListByExamId(Integer examId);
 }

@@ -1,4 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -28,22 +29,28 @@
                 <li class="layui-nav-item" data-menu="contentManagement">
                     <a href="javascript:;"><i class="seraph icon-caidan"></i><cite>exam system</cite></a>
                     <dl class="layui-nav-child">
-                        <dd class="layui-this" data-menu="contentManagement">
-                            <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
-                                <cite>在线考试</cite>
-                            </a>
-                        </dd>
-                        <dd data-menu="memberCenter">
-                            <a href="javascript:;">
-                                <i class="seraph icon-icon10" data-icon="icon-icon10"></i>
-                                <cite>考试管理</cite>
-                            </a>
-                        </dd>
-                        <dd data-menu="systemeSttings">
-                            <a href="javascript:;"><i class="layui-icon" data-icon="&#xe620;">&#xe620;</i>
-                                <cite>系统管理</cite>
-                            </a>
-                        </dd>
+                        <shiro:hasRole name="student">
+                            <dd class="layui-this" data-menu="contentManagement">
+                                <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
+                                    <cite>在线考试</cite>
+                                </a>
+                            </dd>
+                        </shiro:hasRole>
+                        <shiro:hasAnyRoles name="admin,teacher">
+                            <dd data-menu="memberCenter">
+                                <a href="javascript:;">
+                                    <i class="seraph icon-icon10" data-icon="icon-icon10"></i>
+                                    <cite>考试管理</cite>
+                                </a>
+                            </dd>
+                        </shiro:hasAnyRoles>
+                        <shiro:hasRole name="admin">
+                            <dd data-menu="systemeSttings">
+                                <a href="javascript:;"><i class="layui-icon" data-icon="&#xe620;">&#xe620;</i>
+                                    <cite>系统管理</cite>
+                                </a>
+                            </dd>
+                        </shiro:hasRole>
                         <%--                        <dd data-menu="seraphApi">--%>
                         <%--                            <a href="javascript:;"><i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>--%>
                         <%--                                <cite>使用文档</cite>--%>
@@ -54,23 +61,29 @@
             </ul>
 
             <ul class="layui-nav topLevelMenus" pc>
-                <li class="layui-nav-item layui-this" data-menu="contentManagement">
-                    <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
-                        <cite>在线考试</cite>
-                    </a>
-                </li>
-                <li class="layui-nav-item" data-menu="memberCenter" pc>
-                    <a href="javascript:;">
-                        <i class="seraph icon-icon10" data-icon="icon-icon10"></i>
-                        <cite>考试管理</cite>
-                    </a>
-                </li>
-                <li class="layui-nav-item" data-menu="systemeSttings" pc>
-                    <a href="javascript:;">
-                        <i class="layui-icon" data-icon="&#xe620;">&#xe620;</i>
-                        <cite>系统设置</cite>
-                    </a>
-                </li>
+                <shiro:hasRole name="student">
+                    <li class="layui-nav-item layui-this" data-menu="contentManagement">
+                        <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
+                            <cite>在线考试</cite>
+                        </a>
+                    </li>
+                </shiro:hasRole>
+                <shiro:hasAnyRoles name="admin,teacher">
+                    <li class="layui-nav-item" data-menu="memberCenter" pc>
+                        <a href="javascript:;">
+                            <i class="seraph icon-icon10" data-icon="icon-icon10"></i>
+                            <cite>考试管理</cite>
+                        </a>
+                    </li>
+                </shiro:hasAnyRoles>
+                <shiro:hasRole name="admin">
+                    <li class="layui-nav-item" data-menu="systemeSttings" pc>
+                        <a href="javascript:;">
+                            <i class="layui-icon" data-icon="&#xe620;">&#xe620;</i>
+                            <cite>系统设置</cite>
+                        </a>
+                    </li>
+                </shiro:hasRole>
                 <%--                <li class="layui-nav-item" data-menu="seraphApi" pc>--%>
                 <%--                    <a href="javascript:;">--%>
                 <%--                        <i class="layui-icon" data-icon="&#xe705;">&#xe705;</i>--%>
@@ -132,7 +145,7 @@
                             </a>
                         </dd>
                         <dd>
-                            <a href="page/login/login.html" class="signOut">
+                            <a href="/logout" class="signOut">
                                 <i class="seraph icon-tuichu"></i>
                                 <cite>退出</cite>
                             </a>

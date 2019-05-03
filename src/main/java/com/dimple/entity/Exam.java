@@ -1,6 +1,7 @@
 package com.dimple.entity;
 
 import com.dimple.utils.BaseEntity;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.util.Date;
@@ -20,7 +21,23 @@ public class Exam extends BaseEntity {
     //试卷名
     private String examName;
     //考试开始时间
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private Date examStartDate;
     //考试持续的时间，单位为分钟
     private Long examLastTime;
+    //批阅者的id
+    private Integer reviewerId;
+
+    /**
+     * 试题的id
+     */
+    private Integer[] ids;
+    /**
+     * 试题的id变成str
+     */
+    private String idsStr;
+    /**
+     * 选择参加考试的学生的id
+     */
+    private Integer[] studentIds;
 }

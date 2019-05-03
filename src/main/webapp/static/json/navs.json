@@ -17,19 +17,13 @@
     {
       "title": "试卷管理",
       "icon": "&#xe612;",
-      "href": "page/user/userList.html",
+      "href": "/onlineExam/exam",
       "spread": false
     },
     {
       "title": "试题管理",
       "icon": "icon-vip",
       "href": "/onlineExam/question",
-      "spread": false
-    },
-    {
-      "title": "考试管理",
-      "icon": "icon-vip",
-      "href": "page/user/userGrade.html",
       "spread": false
     },
     {

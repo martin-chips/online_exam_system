@@ -37,4 +37,7 @@ public class SysUser extends BaseEntity {
     private Boolean locked;
     //用户类型
     private String userType;
+
+    //在考试管理的时候确定学生是否选中
+    private Boolean studentCheckFlag = false;
 }

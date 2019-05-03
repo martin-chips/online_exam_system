@@ -11,7 +11,7 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            用户名称：<input type="text" name="nickName"/>
+                            试卷名称：<input type="text" name="nickName" />
                         </li>
                         <li>
                             用户账号：<input type="text" name="loginName"/>
@@ -36,10 +36,10 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()">
+            <a class="btn btn-success" onclick="$.operate.addFull()">
                 <i class="fa fa-plus"></i> 新增
             </a>
-            <a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()">
+            <a class="btn btn-primary btn-edit disabled" onclick="$.operate.editFull()">
                 <i class="fa fa-edit"></i> 修改
             </a>
             <a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()">
@@ -54,7 +54,10 @@
 </div>
 <%@include file="../../common/include-footer.jsp" %>
 <script th:inline="javascript">
-    var prefix = "/system/user";
+    var prefix = "/onlineExam/exam";
+
+
+
     $(function () {
         var options = {
             url: prefix + "/list",
@@ -63,46 +66,33 @@
             removeUrl: prefix,
             sortName: "",
             height: 500,
-            modalName: "用户",
+            modalName: "试卷",
             columns: [{
                 checkbox: true
             },
                 {
-                    field: 'id',
-                    title: '用户编号'
+                    field: 'examId',
+                    title: '试卷编号'
                 },
                 {
-                    field: 'loginName',
-                    title: '登录账号',
+                    field: 'examName',
+                    title: '试卷题目',
                     sortable: true
                 },
                 {
-                    field: 'nickName',
-                    title: '姓名',
+                    field: 'examStartDate',
+                    title: '考试开始时间',
                     sortable: true
                 },
                 {
-                    field: 'tel',
-                    title: '电话',
+                    field: 'examLastTime',
+                    title: '试卷持续时间（分钟）',
                     sortable: true
                 },
                 {
-                    field: "email",
-                    title: '邮件',
-                    align: 'center',
-                },
-                {
-                    field: 'userType',
-                    title: '用户类型',
-                    formatter: function (value, item, index) {
-                        if (item.userType == '1') {
-                            return '<span class="label label-success">管理员</span>';
-                        } else if (item.userType == '2') {
-                            return '<span class="label label-primary">教师</span>';
-                        } else if (item.userType == '3') {
-                            return '<span class="label label-warning">学生</span>';
-                        }
-                    }
+                    field: 'reviewerId',
+                    title: '批卷人ID',
+                    sortable: true
                 },
                 {
                     field: 'createDate',
@@ -114,8 +104,8 @@
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + '" href="#" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-success btn-xs ' + '" href="#" onclick="$.operate.editFull(\'' + row.examId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + '" href="#" onclick="$.operate.remove(\'' + row.examId + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
                 }]

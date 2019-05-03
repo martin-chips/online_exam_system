@@ -7,8 +7,8 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="format-detection" content="telephone=no">
-    <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="/static/plugin/bootstrap-table/bootstrap-table.min.css" rel="stylesheet"/>
+    <link href="/static/css/bootstrap.min.css" rel="stylesheet"/>
     <link rel="stylesheet" href="/static/layui/css/layui.css" media="all"/>
     <link href="/static/plugin/select/select2.css" rel="stylesheet"/>
     <link href="/static/css/ui.css" rel="stylesheet"/>

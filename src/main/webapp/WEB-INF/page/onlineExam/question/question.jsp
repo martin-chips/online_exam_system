@@ -62,9 +62,11 @@
             updateUrl: prefix + "/update/{id}",
             removeUrl: prefix,
             sortName: "",
+            // rememberSelected: true,
             height: 500,
             modalName: "试题",
             columns: [{
+                field: 'state',
                 checkbox: true
             },
                 {
@@ -78,7 +80,7 @@
                 },
                 {
                     field: 'type',
-                    title: '公告类型',
+                    title: '试题类型',
                     formatter: function (value, item, index) {
                         if (item.type == '1') {
                             return '<span class="label label-success">单选</span>';
