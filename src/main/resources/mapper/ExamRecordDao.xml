@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dimple.dao.ExamRecordDao">
+
+    <resultMap type="com.dimple.entity.ExamRecord" id="ExamRecordMap">
+        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
+        <result property="stuId" column="stu_id" jdbcType="INTEGER"/>
+        <result property="questionId" column="question_id" jdbcType="INTEGER"/>
+        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+    </resultMap>
+    <insert id="insertOrUpdateRecord">
+        replace into exam_record (exam_id, stu_id, question_id,answer) VALUES (#{examId}, #{stuId}, #{questionId},#{answer})
+    </insert>
+
+    <update id="updateRecordFinalScore">
+        update exam_student set final_score=#{finalScore} where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{qeustionId}
+    </update>
+    <select id="selectAnswerByExamIdAndQuestionIdAndStuId" resultType="java.lang.String">
+            select answer from exam_record where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{questionId}
+    </select>
+    <select id="selectRecordCountByExamIdAndStuId" resultType="java.lang.Integer">
+        select count(*) from exam_record where exam_id=#{examId} and stu_id =#{stuId}
+    </select>
+    <select id="selectRecordByExamIdAndQuestionIdAndStuId" resultType="com.dimple.entity.ExamRecord">
+          select exam_id, stu_id, question_id, answer, final_score from exam_record where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{questionId}
+    </select>
+</mapper>
