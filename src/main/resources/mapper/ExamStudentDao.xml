@@ -20,7 +20,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamStudentMap">
         select
-        es_id, student_id, exam_id
+        es_id, student_id, exam_id,status
         from my_exam_test.exam_student
         <where>
             <if test="esId != null">
@@ -33,6 +33,12 @@
                 and exam_id = #{examId}
             </if>
         </where>
+    </select>
+    <select id="selectByExamIdAndStuId" resultType="com.dimple.entity.ExamStudent">
+        select   es_id, student_id, exam_id ,status from exam_student where exam_id=#{exmaId} and student_id=#{stuId}
+    </select>
+    <select id="queryByStudentIdAndExamId" resultType="com.dimple.entity.ExamStudent">
+        select es_id, student_id, exam_id, status  from exam_student where student_id=#{stuId} and exam_id=#{examId}
     </select>
 
     <!--新增所有列-->
@@ -53,6 +59,9 @@
             </if>
         </set>
         where es_id = #{esId}
+    </update>
+    <update id="updateStatusByExamIdAndStuId">
+        update exam_student set status=#{status} where student_id=#{stuId} and exam_id=#{examId}
     </update>
 
     <!--通过主键删除-->

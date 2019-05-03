@@ -1,6 +1,7 @@
 package com.dimple.service;
 
 import com.dimple.entity.Exam;
+import com.dimple.entity.StudentExamDetail;
 
 import java.util.List;
 
@@ -54,4 +55,15 @@ public interface ExamService {
      */
     List<Exam> findExamList(Exam exam);
 
+    /**
+     * 根据examId获取学生的考试的试卷信息
+     *
+     *
+     * @param id
+     * @param examId
+     * @return
+     */
+    StudentExamDetail getExamForStudentByExamId(Integer id, Integer examId);
+
+    List<Exam> findExamListForStu(Exam exam, Integer id);
 }

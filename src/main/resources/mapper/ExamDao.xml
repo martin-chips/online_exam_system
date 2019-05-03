@@ -25,7 +25,8 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="ExamMap">
         select
-        exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by, update_date,reviewer_id
+        exam_id, exam_name, exam_start_date, exam_last_time, create_by, create_date, update_by,
+        update_date,reviewer_id,score
         from exam
         <where>
             <if test="examName != null and examName != ''">
@@ -51,6 +52,7 @@
         <if test="examLastTime != null and examLastTime != ''">exam_last_time,</if>
         <if test="reviewerId != null and reviewerId != ''">reviewer_id,</if>
         <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="score != null and score != ''">score,</if>
         create_date
         )values(
         <if test="examName != null and examName != ''">#{examName},</if>
@@ -58,6 +60,7 @@
         <if test="examLastTime != null and examLastTime != ''">#{examLastTime},</if>
         <if test="reviewerId != null and reviewerId != ''">#{reviewerId},</if>
         <if test="createBy != null and createBy != ''">#{create_by},</if>
+        <if test="score != null and score != ''">#{score},</if>
         sysdate()
         )
     </insert>
@@ -78,14 +81,20 @@
             <if test="updateBy != null">
                 update_by = #{updateBy},
             </if>
+            <if test="score != null">
+                score = #{score},
+            </if>
             update_date = sysdate()
         </set>
         where exam_id = #{examId}
     </update>
+    <update id="updateScoreById">
+        update exam set score=#{score} where exam_id=#{examId}
+    </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-        delete from my_exam_test.exam where exam_id = #{examId}
+        delete from exam where exam_id = #{examId}
     </delete>
     <delete id="deleteByIds">
         delete from exam where exam_id in

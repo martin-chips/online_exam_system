@@ -34,6 +34,8 @@ public class Question extends BaseEntity {
     private String analyse;
     //分值
     private Double score;
+    //该题的最终得分
+    private double finalScore;
 
     /**
      * 设置选中心项目
@@ -46,6 +48,15 @@ public class Question extends BaseEntity {
     //判断题的选中
     private String judgeAnswer1;//正确
     private String judgeAnswer0;//错误
+
+    //学生的答案
+    private String textAnswerStu;
+    private String optionACheckedStu;
+    private String optionBCheckedStu;
+    private String optionCCheckedStu;
+    private String optionDCheckedStu;
+    private String judgeAnswer1Stu;//正确
+    private String judgeAnswer0Stu;//错误
 
 
 }

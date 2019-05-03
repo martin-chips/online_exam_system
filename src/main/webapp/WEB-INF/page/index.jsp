@@ -61,13 +61,13 @@
             </ul>
 
             <ul class="layui-nav topLevelMenus" pc>
-                <shiro:hasRole name="student">
+<%--                <shiro:hasRole name="student">--%>
                     <li class="layui-nav-item layui-this" data-menu="contentManagement">
                         <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
                             <cite>在线考试</cite>
                         </a>
                     </li>
-                </shiro:hasRole>
+<%--                </shiro:hasRole>--%>
                 <shiro:hasAnyRoles name="admin,teacher">
                     <li class="layui-nav-item" data-menu="memberCenter" pc>
                         <a href="javascript:;">

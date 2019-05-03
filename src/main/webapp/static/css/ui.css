@@ -584,7 +584,8 @@ label {
     color: #6379bb;
     border-bottom: 1px solid #ddd;
     margin: 8px 10px 25px 10px;
-    padding-bottom: 5px
+    padding-bottom: 5px;
+    padding-top: 20px;
 }
 
 .form-content {
@@ -595,5 +596,5 @@ label {
     -webkit-border-image: none;
     -o-border-image: none;
     border-image: none;
-    border-width: 1px 0px;
+    border-width: 1px 1px;
 }

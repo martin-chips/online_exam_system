@@ -2,6 +2,7 @@ package com.dimple.dao;
 
 import com.dimple.entity.Exam;
 import org.apache.ibatis.annotations.Param;
+
 import java.util.List;
 
 /**
@@ -54,8 +55,18 @@ public interface ExamDao {
 
     /**
      * 批量删除
+     *
      * @param ids
      * @return
      */
     int deleteByIds(Integer[] ids);
+
+    /**
+     * 根据id更新成绩
+     *
+     * @param score
+     * @param examId
+     * @return
+     */
+    int updateScoreById(@Param("score") double score,@Param("examId") Integer examId);
 }

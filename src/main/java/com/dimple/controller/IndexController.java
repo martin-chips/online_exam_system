@@ -1,5 +1,7 @@
 package com.dimple.controller;
 
+import com.dimple.entity.Notice;
+import com.dimple.service.NoticeService;
 import com.dimple.service.SysUserService;
 import com.dimple.shiro.UserRealm;
 import org.apache.shiro.SecurityUtils;
@@ -20,13 +22,17 @@ public class IndexController {
     @Autowired
     SysUserService sysUserService;
 
+    @Autowired
+    NoticeService noticeService;
+
     @GetMapping("/index")
     public String index() {
         return "index";
     }
 
     @GetMapping("/main")
-    public String main() {
+    public String main(Model model) {
+        model.addAttribute("notices", noticeService.findNoticeList(new Notice()));
         return "main";
     }
 

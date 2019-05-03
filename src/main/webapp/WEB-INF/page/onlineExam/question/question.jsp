@@ -87,11 +87,11 @@
                         } else if (item.type == '2') {
                             return '<span class="label label-primary">多选</span>';
                         } else if (item.type == '3') {
-                            return '<span class="label label-primary">填空</span>';
+                            return '<span class="label label-danger">填空</span>';
                         } else if (item.type == '4') {
-                            return '<span class="label label-primary">判断</span>';
+                            return '<span class="label label-info">判断</span>';
                         } else if (item.type == '5') {
-                            return '<span class="label label-primary">简答</span>';
+                            return '<span class="label label-warning">简答</span>';
                         }
                     }
                 },

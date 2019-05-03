@@ -1,6 +1,7 @@
 package com.dimple.service;
 
 import com.dimple.entity.ExamStudent;
+
 import java.util.List;
 
 /**
@@ -43,4 +44,12 @@ public interface ExamStudentService {
      */
     boolean deleteById(Integer esId);
 
+    /**
+     * 完成考试
+     *
+     * @param examId
+     * @param id
+     * @return
+     */
+    int finishExam(Integer examId, Integer id);
 }

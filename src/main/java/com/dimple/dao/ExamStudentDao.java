@@ -60,4 +60,24 @@ public interface ExamStudentDao {
      * @return
      */
     int deleteByExamId(Integer examId);
+
+    /**
+     * 根据试卷的id和学生的id，更换它的状态
+     *
+     * @param examId
+     * @param stuId
+     * @return
+     */
+    int updateStatusByExamIdAndStuId(@Param("examId") Integer examId, @Param("stuId") Integer stuId, @Param("status") String status);
+
+    /**
+     * 根据exam的id和stu的id获取单条记录
+     *
+     * @param examId
+     * @param id
+     * @return
+     */
+    ExamStudent selectByExamIdAndStuId(@Param("exmaId") Integer examId, @Param("stuId") Integer id);
+
+    ExamStudent queryByStudentIdAndExamId(@Param("stuId") Integer userId, @Param("examId") Integer examId);
 }

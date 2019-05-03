@@ -4,6 +4,7 @@ import com.dimple.utils.BaseEntity;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
+import java.awt.image.DataBufferDouble;
 import java.util.Date;
 import java.io.Serializable;
 
@@ -27,6 +28,8 @@ public class Exam extends BaseEntity {
     private Long examLastTime;
     //批阅者的id
     private Integer reviewerId;
+    //试卷的总分
+    private Double score;
 
     /**
      * 试题的id
@@ -40,4 +43,9 @@ public class Exam extends BaseEntity {
      * 选择参加考试的学生的id
      */
     private Integer[] studentIds;
+
+    /**
+     * 当前考试是否参加
+     */
+    private Boolean accessed;
 }

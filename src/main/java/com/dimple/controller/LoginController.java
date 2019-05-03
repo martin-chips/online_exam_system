@@ -1,5 +1,7 @@
 package com.dimple.controller;
 
+import com.dimple.service.SysUserService;
+import com.dimple.shiro.UserRealm;
 import com.dimple.utils.Constants;
 import com.dimple.utils.RestResponse;
 import com.dimple.utils.VerifyCodeUtil;
@@ -18,6 +20,7 @@ import org.apache.shiro.authz.UnauthorizedException;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,6 +48,10 @@ import java.util.HashMap;
 @Slf4j
 public class LoginController {
     private static final Logger LOGGER = LoggerFactory.getLogger(LoginController.class);
+
+
+    @Autowired
+    SysUserService sysUserService;
 
     @GetMapping("/login")
     public String login() {
@@ -93,7 +100,7 @@ public class LoginController {
                         map.put("url", "index");
                     }
                 }
-                session.setAttribute("user", SecurityUtils.getSubject());
+                session.setAttribute("user", sysUserService.findSysUserByLoginName(username));
             } catch (IncorrectCredentialsException e) {
                 errorMsg = "登录密码错误.";
             } catch (ExcessiveAttemptsException e) {

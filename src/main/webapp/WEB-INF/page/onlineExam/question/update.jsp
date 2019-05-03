@@ -184,7 +184,6 @@
     )
 
     function questionVailable(type) {
-        console.log(type)
         if (type == "1") {
             //如果是单选
             //ABCD 四个选项显示，单选答案框显示

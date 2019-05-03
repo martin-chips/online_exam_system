@@ -1,6 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@include file="../../common/include-header.jsp" %>
+<%@include file="../common/include-header.jsp" %>
 
 <body class="gray-bg">
 
@@ -14,17 +14,6 @@
                             试卷名称：<input type="text" name="nickName"/>
                         </li>
                         <li>
-                            用户账号：<input type="text" name="loginName"/>
-                        </li>
-                        <li class="select-time">
-                            <label>创建时间： </label>
-                            <input type="text" class="time-input" id="startTime" placeholder="开始时间"
-                                   name="params[beginTime]"/>
-                            <span>-</span>
-                            <input type="text" class="time-input" id="endTime" placeholder="结束时间"
-                                   name="params[endTime]"/>
-                        </li>
-                        <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i
                                     class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i
@@ -36,14 +25,9 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.addFull()">
-                <i class="fa fa-plus"></i> 新增
-            </a>
+
             <a class="btn btn-primary btn-edit disabled" onclick="$.operate.editFull()">
-                <i class="fa fa-edit"></i> 修改
-            </a>
-            <a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()">
-                <i class="fa fa-remove"></i> 删除
+                <i class="fa fa-edit"></i> 开始考试
             </a>
         </div>
 
@@ -52,15 +36,12 @@
         </div>
     </div>
 </div>
-<%@include file="../../common/include-footer.jsp" %>
+<%@include file="../common/include-footer.jsp" %>
 <script th:inline="javascript">
-    var prefix = "/onlineExam/exam";
+    var prefix = "/exam/student";
     $(function () {
         var options = {
             url: prefix + "/list",
-            createUrl: prefix + "/add",
-            updateUrl: prefix + "/update/{id}",
-            removeUrl: prefix,
             sortName: "",
             height: 500,
             modalName: "试卷",
@@ -85,6 +66,16 @@
                     field: 'examLastTime',
                     title: '试卷持续时间（分钟）',
                     sortable: true
+                }, {
+                    field: 'accessrd',
+                    title: '状态',
+                    formatter: function (value, item, index) {
+                        if (item.accessed) {
+                            return '<span class="label label-success">已做</span>';
+                        } else if (!item.accessed) {
+                            return '<span class="label label-primary">未做</span>';
+                        }
+                    }
                 },
                 {
                     field: 'score',
@@ -92,28 +83,25 @@
                     sortable: true
                 },
                 {
-                    field: 'reviewerId',
-                    title: '批卷人ID',
-                    sortable: true
-                },
-                {
-                    field: 'createDate',
-                    title: '创建时间',
-                    sortable: true
-                },
-                {
                     title: '操作',
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + '" href="#" onclick="$.operate.editFull(\'' + row.examId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + '" href="#" onclick="$.operate.remove(\'' + row.examId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        if (row.accessed == true) {
+                            actions.push('<a class="btn btn-warning btn-xs ' + '" target="_blank" href="/exam/student/detail/' + row.examId + '"><i class="fa fa-edit"></i>详情</a> ');
+                        } else {
+                            actions.push('<a class="btn btn-success btn-xs ' + '" target="_blank" href="/exam/student/' + row.examId + '"><i class="fa fa-edit"></i>开始考试</a> ');
+                        }
                         return actions.join('');
                     }
                 }]
         };
         $.table.init(options);
     });
+
+    function makeExam(examId) {
+        $.operate.get("/exam/student/" + examId);
+    }
 </script>
 </body>
 </html>

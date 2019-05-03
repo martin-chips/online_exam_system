@@ -20,5 +20,6 @@ public class ExamStudent implements Serializable {
     //试卷的id
     private Integer examId;
 
+    private String status;
 
 }

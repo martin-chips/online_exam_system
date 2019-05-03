@@ -1,20 +1,25 @@
 package com.dimple.service.impl;
 
 import com.dimple.dao.ExamQuestionDao;
+import com.dimple.dao.ExamRecordDao;
 import com.dimple.dao.ExamStudentDao;
+import com.dimple.dao.QuestionDao;
 import com.dimple.entity.Exam;
 import com.dimple.dao.ExamDao;
 import com.dimple.entity.ExamQuestion;
+import com.dimple.entity.ExamRecord;
 import com.dimple.entity.ExamStudent;
+import com.dimple.entity.Question;
+import com.dimple.entity.StudentExamDetail;
 import com.dimple.service.ExamService;
 import com.dimple.utils.Convert;
-import com.dimple.utils.DateUtils;
+import com.sun.tools.internal.xjc.model.nav.EagerNClass;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,6 +36,10 @@ public class ExamServiceImpl implements ExamService {
     private ExamQuestionDao examQuestionDao;
     @Autowired
     ExamStudentDao examStudentDao;
+    @Autowired
+    QuestionDao questionDao;
+    @Autowired
+    ExamRecordDao examRecordDao;
 
     /**
      * 通过ID查询单条数据
@@ -78,6 +87,7 @@ public class ExamServiceImpl implements ExamService {
     public int insert(Exam exam) {
         Integer[] ids = exam.getIds();
         int insert = this.examDao.insert(exam);
+        double score = 0;
         if (ids != null) {
             //设置exam和question的关联
             for (Integer id : ids) {
@@ -85,8 +95,14 @@ public class ExamServiceImpl implements ExamService {
                 examQuestion.setExamId(exam.getExamId());
                 examQuestion.setQuestionId(id);
                 examQuestionDao.insert(examQuestion);
+                //设置试卷的总分
+                Question question = questionDao.queryById(id);
+                score += question.getScore();
             }
         }
+        //更新其总分
+        examDao.updateScoreById(score, exam.getExamId());
+        exam.setScore(score);
         //获取参加考试的学生的信息
         Integer[] studentIds = exam.getStudentIds();
         if (studentIds != null) {
@@ -115,6 +131,7 @@ public class ExamServiceImpl implements ExamService {
         examQuestionDao.deleteByExamId(exam.getExamId());
         //删除和学生的关联
         examStudentDao.deleteByExamId(exam.getExamId());
+        double score = 0;
         //重新设置关联
         if (ids != null) {
             for (Integer id : ids) {
@@ -122,8 +139,10 @@ public class ExamServiceImpl implements ExamService {
                 examQuestion.setExamId(exam.getExamId());
                 examQuestion.setQuestionId(id);
                 examQuestionDao.insert(examQuestion);
+                score += questionDao.queryById(id).getScore();
             }
         }
+        exam.setScore(score);
         //重置和学生的关联
         if (exam.getStudentIds() != null) {
             for (Integer studentId : exam.getStudentIds()) {
@@ -157,5 +176,123 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<Exam> findExamList(Exam exam) {
         return examDao.queryAll(exam);
+    }
+
+    @Override
+    public StudentExamDetail getExamForStudentByExamId(Integer examId, Integer userId) {
+        List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);
+        Exam exam = examDao.queryById(examId);
+        List<Question> radioQuestion = new ArrayList<>();
+        List<Question> checkboxQuestion = new ArrayList<>();
+        List<Question> blackQuestion = new ArrayList<>();
+        List<Question> judgeQuestion = new ArrayList<>();
+        List<Question> shortQuestion = new ArrayList<>();
+
+        StudentExamDetail studentExamDetail = new StudentExamDetail();
+        studentExamDetail.setExamName(exam.getExamName());
+        studentExamDetail.setLastTime(exam.getExamLastTime());
+        studentExamDetail.setStartDate(exam.getExamStartDate());
+        studentExamDetail.setExamId(examId);
+
+        for (ExamQuestion examQuestion : examQuestions) {
+            Question question = questionDao.queryById(examQuestion.getQuestionId());
+            //查询出已经保存的有的数据，方便页面回显
+            ExamRecord examRecord = examRecordDao.selectRecordByExamIdAndQuestionIdAndStuId(examId, question.getId(), userId);
+            String answer = "";
+            if (examRecord == null) {
+                continue;
+            }
+            answer = examRecord.getAnswer();
+            setAnswer(answer, question);
+            if ("1".equals(question.getType())) {
+                //获取单选
+                question.setFinalScore(examRecord.getFinalScore());
+                radioQuestion.add(question);
+            } else if ("2".equals(question.getType())) {
+                //获取单选
+                question.setFinalScore(examRecord.getFinalScore());
+                //获取多选
+                checkboxQuestion.add(question);
+            } else if ("3".equals(question.getType())) {
+                //获取填空
+                question.setFinalScore(examRecord.getFinalScore());
+                blackQuestion.add(question);
+            } else if ("4".equals(question.getType())) {
+                //获取单选
+                question.setFinalScore(examRecord.getFinalScore());
+                //获取判断
+                judgeQuestion.add(question);
+            } else if ("5".equals(question.getType())) {
+                //获取简答
+                question.setFinalScore(examRecord.getFinalScore());
+                shortQuestion.add(question);
+            }
+        }
+        studentExamDetail.setCheckboxQuestion(checkboxQuestion);
+        studentExamDetail.setRadioQuestion(radioQuestion);
+        studentExamDetail.setShortQuestion(shortQuestion);
+        studentExamDetail.setJudgeQuestion(judgeQuestion);
+        studentExamDetail.setBalckQuestion(blackQuestion);
+        return studentExamDetail;
+    }
+
+    @Override
+    public List<Exam> findExamListForStu(Exam exam, Integer id) {
+        List<Exam> examList = findExamList(exam);
+        for (Exam temp : examList) {
+            ExamStudent examStudent = examStudentDao.selectByExamIdAndStuId(temp.getExamId(), id);
+            //说明没有指定该学生可以考试
+            if (examStudent == null) {
+                //删除此条记录
+                examList.remove(temp);
+            } else if ("0".equals(examStudent.getStatus())) {
+                //说明还没有做，可以做
+                temp.setAccessed(false);
+            } else if ("1".equals(examStudent.getStatus())) {
+                //说明已经做过了，只能显示不能做
+                temp.setAccessed(true);
+            }
+        }
+        return examList;
+    }
+
+    /**
+     * 设置答案
+     *
+     * @param answer
+     * @param question
+     */
+    private void setAnswer(String answer, Question question) {
+        //单选 ABC
+        switch (question.getType()) {
+            case "1":
+            case "2":
+                String[] split = answer.split(",");
+                for (String s : split) {
+                    if ("A".equals(s)) {
+                        question.setOptionACheckedStu("A");
+                    } else if ("B".equals(s)) {
+                        question.setOptionBCheckedStu("B");
+                    } else if ("C".equals(s)) {
+                        question.setOptionCCheckedStu("C");
+                    } else if ("D".equals(s)) {
+                        question.setOptionDCheckedStu("D");
+                    }
+                }
+                break;
+            case "4":
+                if ("1".equals(answer)) {
+                    question.setJudgeAnswer1Stu("1");
+                } else if ("0".equals(answer)) {
+                    question.setJudgeAnswer0Stu("0");
+                }
+                break;
+            case "3":
+            case "5":
+                question.setTextAnswerStu(answer);
+                break;
+            default:
+                break;
+        }
     }
 }

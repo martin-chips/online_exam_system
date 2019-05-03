@@ -3,7 +3,7 @@
     {
       "title": "在线考试",
       "icon": "icon-text",
-      "href": "page/news/newsList.html",
+      "href": "/exam/student",
       "spread": false
     },
     {

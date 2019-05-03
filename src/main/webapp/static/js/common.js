@@ -19,7 +19,7 @@
                     sortName: "",
                     sortOrder: "asc",
                     pagination: true,
-                    pageSize: 10,
+                    pageSize: 20,
                     toolbar: "toolbar",
                     striped: false,
                     escape: false,

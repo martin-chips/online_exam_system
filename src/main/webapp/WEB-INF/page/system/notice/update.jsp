@@ -5,7 +5,7 @@
 <div class="form-content">
     <form id="form-notice-update" class="form-horizontal">
         <h4 class="form-header h4">基本信息</h4>
-        <input type="hidden" value="${notice.noticeId}"/>
+        <input type="hidden" name="noticeId" value="${notice.noticeId}"/>
         <div class="row">
             <div class="col-sm-6">
                 <div class="form-group">
