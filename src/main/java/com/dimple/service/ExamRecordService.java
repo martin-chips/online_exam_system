@@ -20,4 +20,19 @@ public interface ExamRecordService {
      * @return
      */
     int insertOrUpdateRecord(ExamRecord record);
+
+    /**
+     * 教师更新最终成绩
+     *
+     * @param examRecord
+     * @return
+     */
+    int teacherReviewRecord(ExamRecord examRecord);
+
+    /**
+     * 设置完成试卷的review
+     * @param examId
+     * @param stuId
+     */
+    void finishReview(Integer examId, Integer stuId);
 }

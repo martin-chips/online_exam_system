@@ -52,4 +52,6 @@ public interface ExamStudentService {
      * @return
      */
     int finishExam(Integer examId, Integer id);
+
+    ExamStudent queryByExamIdAndStuId(Integer examId, Integer stuId);
 }

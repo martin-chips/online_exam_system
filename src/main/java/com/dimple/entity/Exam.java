@@ -48,4 +48,8 @@ public class Exam extends BaseEntity {
      * 当前考试是否参加
      */
     private Boolean accessed;
+
+    private Integer studentId;
+    private String studentName;
+    private String reading;
 }

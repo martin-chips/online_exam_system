@@ -19,7 +19,12 @@ public class ExamStudent implements Serializable {
     private Integer studentId;
     //试卷的id
     private Integer examId;
-
+    //0表示未参加考试，1表示已经参加考试
     private String status;
 
+    //是否已经阅卷
+    private String reading;
+
+    //最终成绩
+    private Double totalScore;
 }

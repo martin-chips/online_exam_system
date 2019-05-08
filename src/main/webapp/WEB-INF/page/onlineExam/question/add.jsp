@@ -31,7 +31,7 @@
             <label class="col-sm-3 control-label"><span style="color: red; ">*</span>试题：</label>
             <div class="col-sm-8">
                 <input name="title" autocomplete="off" placeholder="请输入试题" class="form-control" type="text"
-                       maxlength="30" required>
+                       maxlength="100" required>
             </div>
         </div>
 
@@ -39,7 +39,7 @@
             <label class="col-sm-3 control-label"><span style="color: red; ">*</span>分值：</label>
             <div class="col-sm-8">
                 <input name="score" autocomplete="off" placeholder="请输入分值" class="form-control" type="number"
-                       maxlength="30" required>
+                       maxlength="3" required>
             </div>
         </div>
 
@@ -233,9 +233,6 @@
         var optionB = $("input[name='optionB']").val();
         var optionC = $("input[name='optionC']").val();
         var optionD = $("input[name='optionD']").val();
-        // var data;
-        // var test={"name": "type", value: "1"}
-        // data.push(test)
         var data = {"type": type, "title": title, "score": score, "analyse": analyse}
         //单选
         if (type == 1) {

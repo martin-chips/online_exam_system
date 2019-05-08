@@ -3,18 +3,19 @@
 <mapper namespace="com.dimple.dao.ExamRecordDao">
 
     <resultMap type="com.dimple.entity.ExamRecord" id="ExamRecordMap">
-        <result property="examId" column="exam_id" jdbcType="INTEGER"/>
-        <result property="stuId" column="stu_id" jdbcType="INTEGER"/>
-        <result property="questionId" column="question_id" jdbcType="INTEGER"/>
-        <result property="answer" column="answer" jdbcType="VARCHAR"/>
+        <result property="examId" column="exam_id"/>
+        <result property="stuId" column="stu_id"/>
+        <result property="questionId" column="question_id"/>
+        <result property="answer" column="answer"/>
     </resultMap>
     <insert id="insertOrUpdateRecord">
         replace into exam_record (exam_id, stu_id, question_id,answer) VALUES (#{examId}, #{stuId}, #{questionId},#{answer})
     </insert>
 
-    <update id="updateRecordFinalScore">
-        update exam_student set final_score=#{finalScore} where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{qeustionId}
+    <update id="updateRecordFinalScore" parameterType="com.dimple.entity.ExamRecord">
+        update exam_record set final_score=#{finalScore} where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{questionId}
     </update>
+
     <select id="selectAnswerByExamIdAndQuestionIdAndStuId" resultType="java.lang.String">
             select answer from exam_record where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{questionId}
     </select>
@@ -23,5 +24,8 @@
     </select>
     <select id="selectRecordByExamIdAndQuestionIdAndStuId" resultType="com.dimple.entity.ExamRecord">
           select exam_id, stu_id, question_id, answer, final_score from exam_record where exam_id=#{examId} and stu_id=#{stuId} and question_id=#{questionId}
+    </select>
+    <select id="selectRecordByExamIdAndStuId" resultType="com.dimple.entity.ExamRecord">
+          select exam_id, stu_id, question_id, answer, final_score from exam_record where  exam_id=#{examId} and stu_id=#{stuId}
     </select>
 </mapper>

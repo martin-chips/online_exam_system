@@ -164,6 +164,7 @@
                 sortOrder: "desc",
                 escape: true,
                 modalName: "试题",
+                clickToSelect: true,
                 rememberSelected: true,
                 columns: [{
                     field: 'state',
@@ -225,7 +226,7 @@
         function submitHandler() {
             if ($.validate.form()) {
                 var data = $("#form-exam-add").serializeArray();
-                var ids = {"name": "ids", value: $.table.getSelectIds()}
+                var ids = {"name": "ids", value: $.table.selectFirstColumns()}
                 data.push(ids);
                 //获取参加的学生的id
                 var studentIds = $.form.selectSelects("studentIds");

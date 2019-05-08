@@ -58,7 +58,6 @@ public interface ExamService {
     /**
      * 根据examId获取学生的考试的试卷信息
      *
-     *
      * @param id
      * @param examId
      * @return
@@ -66,4 +65,21 @@ public interface ExamService {
     StudentExamDetail getExamForStudentByExamId(Integer id, Integer examId);
 
     List<Exam> findExamListForStu(Exam exam, Integer id);
+
+    /**
+     * 查找需要review的试卷
+     *
+     * @param exam
+     * @return
+     */
+    List<Exam> findExamListToReview(Exam exam);
+
+    /**
+     * 获取exam的详细信息，方便老师review
+     *
+     * @param examId
+     * @param stuId
+     * @return
+     */
+    StudentExamDetail findExamDetailToReview(Integer examId, Integer stuId);
 }

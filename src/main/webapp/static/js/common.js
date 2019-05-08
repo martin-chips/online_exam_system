@@ -19,7 +19,7 @@
                     sortName: "",
                     sortOrder: "asc",
                     pagination: true,
-                    pageSize: 20,
+                    pageSize: 10,
                     toolbar: "toolbar",
                     striped: false,
                     escape: false,
@@ -69,7 +69,7 @@
                     showColumns: options.showColumns,                   // 是否显示隐藏某列下拉框
                     showToggle: options.showToggle,                     // 是否显示详细视图和列表视图的切换按钮
                     showExport: options.showExport,                     // 是否支持导出文件
-                    clickToSelect: true,				// 是否启用点击选中行
+                    clickToSelect: options.clickToSelect,				// 是否启用点击选中行
                     rememberSelected: options.rememberSelected,         // 启用翻页记住前面的选择
                     fixedColumns: options.fixedColumns,                 // 是否启用冻结列（左侧）
                     fixedNumber: options.fixedNumber,                   // 列冻结的个数（左侧）
@@ -311,7 +311,6 @@
                 return $.common.uniqueFn(rows);
             },
             getSelectIds: function () {
-                console.log(1)
                 return $.table.affectedRowIds($('#' + $.table._option.id).bootstrapTable('getSelections'))
             },
 

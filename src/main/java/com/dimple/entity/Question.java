@@ -35,7 +35,7 @@ public class Question extends BaseEntity {
     //分值
     private Double score;
     //该题的最终得分
-    private double finalScore;
+    private Double finalScore;
 
     /**
      * 设置选中心项目

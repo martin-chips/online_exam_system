@@ -23,7 +23,7 @@ public class ExamRecord implements Serializable {
 
     private String answer;
 
-    private Double finalScore;
+    private Double finalScore = 0D;
 
 
 }

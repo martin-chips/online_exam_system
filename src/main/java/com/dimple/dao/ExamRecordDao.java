@@ -36,7 +36,7 @@ public interface ExamRecordDao {
      * 根据试卷的id和学生的id查询count记录
      *
      * @param examId
-     * @param id
+     * @param stuId
      * @return
      */
     int selectRecordCountByExamIdAndStuId(@Param("examId") Integer examId, @Param("stuId") Integer stuId);
@@ -50,4 +50,7 @@ public interface ExamRecordDao {
      * @return
      */
     int updateRecordFinalScore(ExamRecord examRecord);
+
+
+    List<ExamRecord> selectRecordByExamIdAndStuId(@Param("examId") Integer examId, @Param("stuId") Integer stuId);
 }

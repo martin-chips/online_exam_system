@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@include file="../common/include-header.jsp" %>
+<%@include file="../../common/include-header.jsp" %>
 <style>
     .exam-bar {
         background: #fff9ec none repeat scroll 0% 0%;
@@ -15,13 +15,15 @@
 
 <div class="container-div">
     <input type="hidden" id="examId" value="${exam.examId}">
+    <input type="hidden" id="stuId" value="${stuId}">
     <nav class="navbar navbar-fixed-top exam-bar" role="navigation">
         <div class="col-lg-4 text-right">
             当前试卷为【${exam.examName}】，考试用户为【${sessionScope.user.nickName}】
         </div>
         <div class="col-lg-4 text-center">考试时长：${exam.lastTime} 分钟
         </div>
-        <div class="col-lg-4 text-center">考试成绩：老师正在阅卷中，请稍后
+        <div class="col-lg-4 text-center">
+            成绩：正在阅卷中
         </div>
     </nav>
 
@@ -76,6 +78,9 @@
                     <c:if test="${radio.finalScore !=null}">
                         <div class="text-warning">最终得分：${radio.finalScore}</div>
                     </c:if>
+                    <c:if test="${radio.finalScore ==null && radio.finalScore==''}">
+                        <div class="text-warning">最终得分：正在阅卷中</div>
+                    </c:if>
                     <c:if test="${radio.answer !=null && radio.answer!=''}">
                         <div class="text-warning">正确答案：${radio.answer}</div>
                     </c:if>
@@ -109,33 +114,33 @@
                             <input class="form-control" type="checkbox" mtype="Multiple" value="B" disabled
                                    <c:if test="${checkbox.optionBCheckedStu=='B'}">checked</c:if>
                                    name="${checkbox.id}">
-                            <c:out
-                                    value="${checkbox.optionB}"
-                                    escapeXml='false'/>
+                            <c:out value="${checkbox.optionB}"
+                                   escapeXml='false'/>
                         </label>
                         <br>
                         <label class="radio-box">
                             <input class="form-control" type="checkbox" mtype="Multiple" value="C" disabled
                                    <c:if test="${checkbox.optionCCheckedStu=='C'}">checked</c:if>
                                    name="${checkbox.id}">
-                            <c:out
-                                    value="${checkbox.optionC}"
-                                    escapeXml='false'/>
+                            <c:out value="${checkbox.optionC}"
+                                   escapeXml='false'/>
                         </label>
                         <br>
                         <label class="radio-box">
                             <input class="form-control" type="checkbox" mtype="Multiple" value="D" disabled
                                    <c:if test="${checkbox.optionDCheckedStu=='D'}">checked</c:if>
                                    name="${checkbox.id}">
-                            <c:out
-                                    value="${checkbox.optionD}"
-                                    escapeXml='false'/>
+                            <c:out value="${checkbox.optionD}"
+                                   escapeXml='false'/>
                         </label>
                         <br>
                     </div>
                 </div>
-                <c:if test="${checkbox.finalScore !=null }">
+                <c:if test="${checkbox.finalScore !=null}">
                     <div class="text-warning">最终得分：${checkbox.finalScore}</div>
+                </c:if>
+                <c:if test="${checkbox.finalScore ==null && checkbox.finalScore==''}">
+                    <div class="text-warning">最终得分：正在阅卷中</div>
                 </c:if>
                 <c:if test="${checkbox.answer !=null && checkbox.answer!=''}">
                     <div class="text-warning">正确答案：${checkbox.answer}</div>
@@ -154,17 +159,14 @@
             <c:forEach items="${exam.balckQuestion}" varStatus="varStat" var="black">
                 <div class="form-group">
                     <label class=" control-label">${varStat.index+1}: ${black.title}:
-                        <input type="text" name="${black.id}" onblur="updateTextAnswer('${black.id}')" readonly
+                        <input type="text" readonly
                                value="${black.textAnswerStu}"
                                class="form-control"></label>
                     <span class="text-info h6">  本题${black.score}分</span>
                 </div>
-                <c:if test="${black.finalScore !=null &&black.finalScore!=''}">
-                    <div class=" text-warning">最终得分：${black.finalScore}</div>
-                </c:if>
-                <c:if test="${black.finalScore ==null && black.finalScore==''}">
-                    <div class="text-warning">最终得分：正在阅卷中</div>
-                </c:if>
+                <div class=" text-warning">请判分：<input class="form-control" name="${black.id}"
+                                                      onblur="updateTextScore('${black.id}')"
+                                                      value="${black.finalScore}"></div>
                 <c:if test="${black.answer !=null && black.answer!=''}">
                     <div class="text-warning">正确答案：${black.answer}</div>
                 </c:if>
@@ -216,18 +218,17 @@
                 <div class="form-group">
                     <label class=" control-label">${varStat.index+1}: ${shorta.title}</label><span
                         class="text-info h6">  本题${shorta.score}分</span>
-                    <textarea name="${shorta.id}" autocomplete="off" maxlength="500" id="shortAnswer" readonly
+                    <textarea autocomplete="off" maxlength="500" id="shortAnswer" readonly
                               class="form-control"
-                              onblur="updateTextAnswer('${shorta.id }')"
                               rows="3">${shorta.textAnswerStu}</textarea>
                     <br>
                 </div>
-                <c:if test="${shorta.finalScore !=null}">
-                    <div class="text-warning">最终得分：${shorta.finalScore}</div>
-                </c:if>
-                <c:if test="${shorta.finalScore ==null || shorta.finalScore==''}">
-                    <div class="text-warning">最终得分：正在阅卷中</div>
-                </c:if>
+
+                <div class="text-warning">请判分：
+                    <input type="number" class="form-control " name="${shorta.id}" value="${shorta.finalScore}"
+                           onblur="updateTextScore('${shorta.id}')">
+                </div>
+
                 <c:if test="${shorta.answer !=null && shorta.answer!=''}">
                     <div class="text-warning">正确答案：${shorta.answer}</div>
                 </c:if>
@@ -237,11 +238,46 @@
             </c:forEach>
         </div>
     </c:if>
-
+    <div class="row">
+        <div class="col-sm-offset-5 col-sm-10">
+            <button type="button" class="btn btn-lg btn-danger" onclick="finishReview()"><i class="fa fa-check"></i>提 交
+                成 绩
+            </button>
+        </div>
+    </div>
 </div>
-<%@include file="../common/include-footer.jsp" %>
+<%@include file="../../common/include-footer.jsp" %>
 <script src="/static/plugin/select/select2.js"></script>
 
+<script>
+    function updateTextScore(name) {
+        var score = $("[name='" + name + "']").val();
+        $.ajax({
+            data: {"questionId": name, "finalScore": score, "examId": $("#examId").val(), "stuId": $("#stuId").val()},
+            url: "/onlineExam/review/reviewExam",
+            async: true, //异步提交
+            type: "post",
+            success: function (result) {
+                if (result.code != 0) {
+                    $.modal.alertError(result.msg);
+                }
+            }
+        });
+    }
 
+    function finishReview() {
+        $.ajax({
+            data: {"examId": $("#examId").val(), "stuId": $("#stuId").val()},
+            url: "/onlineExam/review/finisReview",
+            async: true, //异步提交
+            type: "post",
+            success: function (result) {
+                if (result.code != 0) {
+                    $.modal.alertError(result.msg);
+                }
+            }
+        })
+    }
+</script>
 </body>
 </html>

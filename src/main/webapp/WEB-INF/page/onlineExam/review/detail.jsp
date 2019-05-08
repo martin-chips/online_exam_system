@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
-<%@include file="../common/include-header.jsp" %>
+<%@include file="../../common/include-header.jsp" %>
 <style>
     .exam-bar {
         background: #fff9ec none repeat scroll 0% 0%;
@@ -21,7 +21,7 @@
         </div>
         <div class="col-lg-4 text-center">考试时长：${exam.lastTime} 分钟
         </div>
-        <div class="col-lg-4 text-center">考试成绩：老师正在阅卷中，请稍后
+        <div class="col-lg-4 text-center">考试成绩：${examStudent.totalScore}
         </div>
     </nav>
 
@@ -222,7 +222,7 @@
                               rows="3">${shorta.textAnswerStu}</textarea>
                     <br>
                 </div>
-                <c:if test="${shorta.finalScore !=null}">
+                <c:if test="${shorta.finalScore !=null && checkbox.finalScore!=''}">
                     <div class="text-warning">最终得分：${shorta.finalScore}</div>
                 </c:if>
                 <c:if test="${shorta.finalScore ==null || shorta.finalScore==''}">
@@ -239,7 +239,7 @@
     </c:if>
 
 </div>
-<%@include file="../common/include-footer.jsp" %>
+<%@include file="../../common/include-footer.jsp" %>
 <script src="/static/plugin/select/select2.js"></script>
 
 

@@ -92,6 +92,11 @@ public class ExamStudentServiceImpl implements ExamStudentService {
         return examStudentDao.updateStatusByExamIdAndStuId(examId, stuId, "1");
     }
 
+    @Override
+    public ExamStudent queryByExamIdAndStuId(Integer examId, Integer stuId) {
+        return examStudentDao.selectByExamIdAndStuId(examId, stuId);
+    }
+
     private void ReadingExamObjective(Integer examId, Integer stuId) {
         //查询出所有的question id
         List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);

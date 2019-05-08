@@ -80,4 +80,23 @@ public interface ExamStudentDao {
     ExamStudent selectByExamIdAndStuId(@Param("exmaId") Integer examId, @Param("stuId") Integer id);
 
     ExamStudent queryByStudentIdAndExamId(@Param("stuId") Integer userId, @Param("examId") Integer examId);
+
+    /**
+     * 获取ExamStudent实体类的信息
+     *
+     * @param examId
+     * @return
+     */
+    List<ExamStudent> selectByExamId(Integer examId);
+
+    /**
+     * 根据studentId和exam的id更新成绩
+     *
+     * @param stuId
+     * @param examId
+     * @param score
+     * @param s
+     * @return
+     */
+    int updateReadingAndTotalScoreByStuIdAndExamId(@Param("stuId") Integer stuId, @Param("examId") Integer examId, @Param("score") Double score, @Param("reading") String reading);
 }

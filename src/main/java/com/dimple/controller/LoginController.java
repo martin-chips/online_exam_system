@@ -92,13 +92,7 @@ public class LoginController {
             try {
                 subject.login(usernamePasswordToken);
                 if (subject.isAuthenticated()) {
-                    if (subject.hasRole("admin")) {
-                        map.put("url", "index");
-                    } else if (subject.hasRole("teacher")) {
-                        map.put("url", "index");
-                    } else if (subject.hasRole("student")) {
-                        map.put("url", "index");
-                    }
+                    map.put("url", "index");
                 }
                 session.setAttribute("user", sysUserService.findSysUserByLoginName(username));
             } catch (IncorrectCredentialsException e) {

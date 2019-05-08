@@ -18,6 +18,8 @@
 </head>
 <body class="main_body">
 <div class="layui-layout layui-layout-admin">
+
+    <input type="hidden" id="userType" value="${sessionScope.user.userType}"/>
     <!-- 顶部 -->
     <div class="layui-header header">
         <div class="layui-main mag0">
@@ -61,13 +63,13 @@
             </ul>
 
             <ul class="layui-nav topLevelMenus" pc>
-<%--                <shiro:hasRole name="student">--%>
+                <shiro:hasRole name="student">
                     <li class="layui-nav-item layui-this" data-menu="contentManagement">
                         <a href="javascript:;"><i class="layui-icon" data-icon="&#xe63c;">&#xe63c;</i>
                             <cite>在线考试</cite>
                         </a>
                     </li>
-<%--                </shiro:hasRole>--%>
+                </shiro:hasRole>
                 <shiro:hasAnyRoles name="admin,teacher">
                     <li class="layui-nav-item" data-menu="memberCenter" pc>
                         <a href="javascript:;">
@@ -109,7 +111,7 @@
                 <li class="layui-nav-item" id="userInfo">
                     <a href="javascript:;">
                         <img src="/static/images/face.jpg" class="layui-nav-img userAvatar" width="35" height="35">
-                        <cite class="adminName">驊驊龔頾</cite>
+                        <cite class="adminName">${sessionScope.user.nickName}</cite>
                     </a>
                     <dl class="layui-nav-child">
                         <dd>
@@ -159,7 +161,7 @@
     <div class="layui-side layui-bg-black">
         <div class="user-photo">
             <a class="img" title="我的头像"><img src="/static/images/face.jpg" class="userAvatar"></a>
-            <p>你好！<span class="userName">驊驊龔頾</span>, 欢迎登录</p>
+            <p>你好！<span class="userName">${sessionScope.user.nickName}</span>, 欢迎登录</p>
         </div>
         <!-- 搜索 -->
         <div class="layui-form component">
@@ -233,6 +235,7 @@
 <div class="site-tree-mobile"><i class="layui-icon">&#xe602;</i></div>
 <div class="site-mobile-shade"></div>
 
+<script src="/static/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/layui/layui.js"></script>
 <script type="text/javascript" src="/static/js/index.js"></script>
 <script type="text/javascript" src="/static/js/cache.js"></script>

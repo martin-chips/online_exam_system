@@ -47,12 +47,6 @@
             </div>
         </div>
     </div>
-    <div class="user_right">
-        <input type="hidden" name="icon" value="${user.icon}">
-        <button type="button" class="layui-btn layui-btn-normal" id="test1"><i class="layui-icon"></i>来来来，换个脸怎么样
-        </button>
-
-    </div>
     <div class="layui-form-item" style="margin-left: 5%;">
         <div class="layui-input-block">
             <button class="layui-btn" lay-submit="" lay-filter="changeUser">立即提交</button>

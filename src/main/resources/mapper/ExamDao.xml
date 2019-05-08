@@ -35,6 +35,9 @@
             <if test="createBy != null">
                 and create_by = #{createBy}
             </if>
+            <if test="reviewerId != null">
+                and reviewer_id = #{reviewerId}
+            </if>
             <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
                 AND date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
             </if>

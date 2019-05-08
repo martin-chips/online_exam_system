@@ -4,6 +4,7 @@ import com.dimple.dao.ExamQuestionDao;
 import com.dimple.dao.ExamRecordDao;
 import com.dimple.dao.ExamStudentDao;
 import com.dimple.dao.QuestionDao;
+import com.dimple.dao.SysUserDao;
 import com.dimple.entity.Exam;
 import com.dimple.dao.ExamDao;
 import com.dimple.entity.ExamQuestion;
@@ -40,6 +41,8 @@ public class ExamServiceImpl implements ExamService {
     QuestionDao questionDao;
     @Autowired
     ExamRecordDao examRecordDao;
+    @Autowired
+    SysUserDao sysUserDao;
 
     /**
      * 通过ID查询单条数据
@@ -200,34 +203,30 @@ public class ExamServiceImpl implements ExamService {
             ExamRecord examRecord = examRecordDao.selectRecordByExamIdAndQuestionIdAndStuId(examId, question.getId(), userId);
             String answer = "";
             if (examRecord == null) {
-                continue;
+                question.setFinalScore(0D);
+            } else {
+                question.setFinalScore(examRecord.getFinalScore());
+                answer = examRecord.getAnswer();
             }
-            answer = examRecord.getAnswer();
             setAnswer(answer, question);
             if ("1".equals(question.getType())) {
                 //获取单选
-                question.setFinalScore(examRecord.getFinalScore());
                 radioQuestion.add(question);
             } else if ("2".equals(question.getType())) {
                 //获取单选
-                question.setFinalScore(examRecord.getFinalScore());
-                //获取多选
                 checkboxQuestion.add(question);
             } else if ("3".equals(question.getType())) {
                 //获取填空
-                question.setFinalScore(examRecord.getFinalScore());
                 blackQuestion.add(question);
             } else if ("4".equals(question.getType())) {
-                //获取单选
-                question.setFinalScore(examRecord.getFinalScore());
                 //获取判断
                 judgeQuestion.add(question);
             } else if ("5".equals(question.getType())) {
                 //获取简答
-                question.setFinalScore(examRecord.getFinalScore());
                 shortQuestion.add(question);
             }
         }
+
         studentExamDetail.setCheckboxQuestion(checkboxQuestion);
         studentExamDetail.setRadioQuestion(radioQuestion);
         studentExamDetail.setShortQuestion(shortQuestion);
@@ -239,12 +238,13 @@ public class ExamServiceImpl implements ExamService {
     @Override
     public List<Exam> findExamListForStu(Exam exam, Integer id) {
         List<Exam> examList = findExamList(exam);
+        List<Exam> returnExams = new ArrayList<>();
         for (Exam temp : examList) {
             ExamStudent examStudent = examStudentDao.selectByExamIdAndStuId(temp.getExamId(), id);
             //说明没有指定该学生可以考试
             if (examStudent == null) {
                 //删除此条记录
-                examList.remove(temp);
+                continue;
             } else if ("0".equals(examStudent.getStatus())) {
                 //说明还没有做，可以做
                 temp.setAccessed(false);
@@ -252,8 +252,91 @@ public class ExamServiceImpl implements ExamService {
                 //说明已经做过了，只能显示不能做
                 temp.setAccessed(true);
             }
+            returnExams.add(temp);
         }
-        return examList;
+        return returnExams;
+    }
+
+    @Override
+    public List<Exam> findExamListToReview(Exam exam) {
+        List<Exam> examList = findExamList(exam);
+        List<Exam> examsReturn = new ArrayList<>();
+        for (Exam temp : examList) {
+            Integer examId = temp.getExamId();
+            List<ExamStudent> examStudents = examStudentDao.selectByExamId(examId);
+            for (ExamStudent examStudent : examStudents) {
+                //过滤掉还未参加考试的学生
+                if ("0".equals(examStudent.getStatus())) {
+                    continue;
+                }
+                Exam returnExam = new Exam();
+                returnExam.setExamId(examId);
+                returnExam.setReviewerId(temp.getReviewerId());
+                returnExam.setStudentId(examStudent.getStudentId());
+                returnExam.setExamName(temp.getExamName());
+                returnExam.setStudentName(sysUserDao.selectUserById(examStudent.getStudentId()).getLoginName());
+                returnExam.setReading(examStudent.getReading());
+                returnExam.setExamStartDate(temp.getExamStartDate());
+                examsReturn.add(returnExam);
+            }
+        }
+        return examsReturn;
+    }
+
+    @Override
+    public StudentExamDetail findExamDetailToReview(Integer examId, Integer stuId) {
+
+        List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);
+        Exam exam = examDao.queryById(examId);
+        List<Question> radioQuestion = new ArrayList<>();
+        List<Question> checkboxQuestion = new ArrayList<>();
+        List<Question> blackQuestion = new ArrayList<>();
+        List<Question> judgeQuestion = new ArrayList<>();
+        List<Question> shortQuestion = new ArrayList<>();
+
+        StudentExamDetail studentExamDetail = new StudentExamDetail();
+        studentExamDetail.setExamName(exam.getExamName());
+        studentExamDetail.setLastTime(exam.getExamLastTime());
+        studentExamDetail.setStartDate(exam.getExamStartDate());
+        studentExamDetail.setExamId(examId);
+
+        for (ExamQuestion examQuestion : examQuestions) {
+            Question question = questionDao.queryById(examQuestion.getQuestionId());
+            //查询出已经保存的有的数据，方便页面回显
+            ExamRecord examRecord = examRecordDao.selectRecordByExamIdAndQuestionIdAndStuId(examId, question.getId(), stuId);
+            String answer = "";
+            if (examRecord == null) {
+                continue;
+            }
+            question.setFinalScore(examRecord.getFinalScore());
+            answer = examRecord.getAnswer();
+
+            setAnswer(answer, question);
+
+            if ("1".equals(question.getType())) {
+                //获取单选
+                radioQuestion.add(question);
+            } else if ("2".equals(question.getType())) {
+                //获取单选
+                checkboxQuestion.add(question);
+            } else if ("3".equals(question.getType())) {
+                //获取填空
+                blackQuestion.add(question);
+            } else if ("4".equals(question.getType())) {
+                //获取判断
+                judgeQuestion.add(question);
+            } else if ("5".equals(question.getType())) {
+                //获取简答
+                shortQuestion.add(question);
+            }
+        }
+
+        studentExamDetail.setCheckboxQuestion(checkboxQuestion);
+        studentExamDetail.setRadioQuestion(radioQuestion);
+        studentExamDetail.setShortQuestion(shortQuestion);
+        studentExamDetail.setJudgeQuestion(judgeQuestion);
+        studentExamDetail.setBalckQuestion(blackQuestion);
+        return studentExamDetail;
     }
 
     /**

@@ -148,22 +148,10 @@
                 escape: true,
                 modalName: "试题",
                 rememberSelected: true,
+                clickToSelect:true,
                 columns: [{
                     field: 'state',
-                    checkbox: true,
-                    formatter: function (value, item, index) {
-                        var temp = data.split(",");
-                        for (var i = 0; i < temp.length; i++) {
-                            if (temp[i] == item.id) {
-                                return {
-                                    checked: true//设置选中
-                                };
-                            }
-                        }
-                        return {
-                            checked: false//设置选中
-                        };
-                    }
+                    checkbox: true
                 },
                     {
                         field: 'id',
@@ -208,7 +196,7 @@
         function submitHandler() {
             if ($.validate.form()) {
                 var data = $("#form-exam-add").serializeArray();
-                var ids = {"name": "ids", value: $.table.getSelectIds()}
+                var ids = {"name": "ids", value: $.table.selectFirstColumns()}
                 data.push(ids);
                 //获取参加的学生的id
                 var studentIds = $.form.selectSelects("studentIds");

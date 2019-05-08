@@ -20,30 +20,8 @@
     <div id="nowTime"></div>
 </blockquote>
 <div class="layui-row layui-col-space10 panel_box">
-    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-        <a href="javascript:;" data-url="page/user/userList.html">
-            <div class="panel_icon layui-bg-orange">
-                <i class="layui-anim seraph icon-icon10" data-icon="icon-icon10"></i>
-            </div>
-            <div class="panel_word userAll">
-                <span></span>
-                <em>用户总数</em>
-                <cite class="layui-hide">用户中心</cite>
-            </div>
-        </a>
-    </div>
-    <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
-        <a href="javascript:;" data-url="page/systemSetting/icons.html">
-            <div class="panel_icon layui-bg-cyan">
-                <i class="layui-anim layui-icon" data-icon="&#xe857;">&#xe857;</i>
-            </div>
-            <div class="panel_word outIcons">
-                <span></span>
-                <em>外部图标</em>
-                <cite class="layui-hide">图标管理</cite>
-            </div>
-        </a>
-    </div>
+    <input type="hidden" id="userName" value="${sessionScope.user.nickName}"/>
+    <blockquote class="layui-elem-quote title">快捷菜单</blockquote>
     <div class="panel layui-col-xs12 layui-col-sm6 layui-col-md4 layui-col-lg2">
         <a href="javascript:;">
             <div class="panel_icon layui-bg-blue">

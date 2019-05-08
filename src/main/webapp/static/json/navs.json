@@ -29,7 +29,7 @@
     {
       "title": "我的判卷",
       "icon": "icon-vip",
-      "href": "page/user/userGrade.html",
+      "href": "/onlineExam/review",
       "spread": false
     },
     {
