@@ -2,9 +2,11 @@ package com.dimple.controller;
 
 import com.dimple.entity.Exam;
 import com.dimple.entity.ExamRecord;
+import com.dimple.entity.SysUser;
 import com.dimple.service.ExamRecordService;
 import com.dimple.service.ExamService;
 import com.dimple.service.ExamStudentService;
+import com.dimple.service.SysUserService;
 import com.dimple.utils.web.AjaxResult;
 import com.dimple.utils.web.BaseController;
 import com.dimple.utils.web.TableDataInfo;
@@ -32,6 +34,8 @@ public class TeacherReviewController extends BaseController {
     ExamRecordService examRecordService;
     @Autowired
     ExamStudentService examStudentService;
+    @Autowired
+    SysUserService sysUserService;
 
     @GetMapping()
     public String review() {
@@ -69,7 +73,7 @@ public class TeacherReviewController extends BaseController {
     @GetMapping("/detail/{examId}/{stuId}")
     public String examDetail(@PathVariable Integer examId, @PathVariable Integer stuId, Model model) {
         model.addAttribute("exam", examService.findExamDetailToReview(examId, stuId));
-        model.addAttribute("stuId", stuId);
+        model.addAttribute("student", sysUserService.selectSysyUserById(stuId));
         model.addAttribute("examStudent", examStudentService.queryByExamIdAndStuId(examId, stuId));
         return "onlineExam/review/detail";
     }

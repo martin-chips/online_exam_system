@@ -17,12 +17,16 @@
     <input type="hidden" id="examId" value="${exam.examId}">
     <nav class="navbar navbar-fixed-top exam-bar" role="navigation">
         <div class="col-lg-4 text-right">
-            当前试卷为【${exam.examName}】，考试用户为【${sessionScope.user.nickName}】
+            当前试卷为【${exam.examName}】，考试用户为【${student.nickName}】
         </div>
         <div class="col-lg-4 text-center">考试时长：${exam.lastTime} 分钟
         </div>
-        <div class="col-lg-4 text-center">考试成绩：${examStudent.totalScore}
-        </div>
+        <c:if test="${exam.totalScore==null}">
+            <div class="col-lg-4 text-center">考试成绩：老师正在阅卷中，请稍后</div>
+        </c:if>
+        <c:if test="${exam.totalScore!=null}">
+            <div class="col-lg-4 text-center">考试成绩：${exam.totalScore}</div>
+        </c:if>
     </nav>
 
     <div class="text-center" style="margin-top: 100px">
@@ -159,10 +163,10 @@
                                class="form-control"></label>
                     <span class="text-info h6">  本题${black.score}分</span>
                 </div>
-                <c:if test="${black.finalScore !=null &&black.finalScore!=''}">
+                <c:if test="${black.finalScore !=null}">
                     <div class=" text-warning">最终得分：${black.finalScore}</div>
                 </c:if>
-                <c:if test="${black.finalScore ==null && black.finalScore==''}">
+                <c:if test="${black.finalScore ==null}">
                     <div class="text-warning">最终得分：正在阅卷中</div>
                 </c:if>
                 <c:if test="${black.answer !=null && black.answer!=''}">
@@ -222,10 +226,10 @@
                               rows="3">${shorta.textAnswerStu}</textarea>
                     <br>
                 </div>
-                <c:if test="${shorta.finalScore !=null && checkbox.finalScore!=''}">
+                <c:if test="${shorta.finalScore !=null }">
                     <div class="text-warning">最终得分：${shorta.finalScore}</div>
                 </c:if>
-                <c:if test="${shorta.finalScore ==null || shorta.finalScore==''}">
+                <c:if test="${shorta.finalScore ==null }">
                     <div class="text-warning">最终得分：正在阅卷中</div>
                 </c:if>
                 <c:if test="${shorta.answer !=null && shorta.answer!=''}">

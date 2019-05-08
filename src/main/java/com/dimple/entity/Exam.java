@@ -31,6 +31,9 @@ public class Exam extends BaseEntity {
     //试卷的总分
     private Double score;
 
+    //总分
+    private Double totalScore;
+
     /**
      * 试题的id
      */

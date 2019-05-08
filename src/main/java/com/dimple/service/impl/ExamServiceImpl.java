@@ -197,6 +197,13 @@ public class ExamServiceImpl implements ExamService {
         studentExamDetail.setStartDate(exam.getExamStartDate());
         studentExamDetail.setExamId(examId);
 
+        //获取学生总成绩
+        ExamStudent examStudent = examStudentDao.selectByExamIdAndStuId(examId, userId);
+        //设置学生总成绩
+        studentExamDetail.setTotalScore(examStudent.getTotalScore());
+
+        double score = 0;
+
         for (ExamQuestion examQuestion : examQuestions) {
             Question question = questionDao.queryById(examQuestion.getQuestionId());
             //查询出已经保存的有的数据，方便页面回显
@@ -208,6 +215,7 @@ public class ExamServiceImpl implements ExamService {
                 question.setFinalScore(examRecord.getFinalScore());
                 answer = examRecord.getAnswer();
             }
+            score += question.getScore();
             setAnswer(answer, question);
             if ("1".equals(question.getType())) {
                 //获取单选
@@ -232,6 +240,8 @@ public class ExamServiceImpl implements ExamService {
         studentExamDetail.setShortQuestion(shortQuestion);
         studentExamDetail.setJudgeQuestion(judgeQuestion);
         studentExamDetail.setBalckQuestion(blackQuestion);
+
+        studentExamDetail.setScore(score);
         return studentExamDetail;
     }
 
@@ -252,6 +262,7 @@ public class ExamServiceImpl implements ExamService {
                 //说明已经做过了，只能显示不能做
                 temp.setAccessed(true);
             }
+            temp.setTotalScore(examStudent.getTotalScore());
             returnExams.add(temp);
         }
         return returnExams;
@@ -300,6 +311,14 @@ public class ExamServiceImpl implements ExamService {
         studentExamDetail.setStartDate(exam.getExamStartDate());
         studentExamDetail.setExamId(examId);
 
+
+        //获取学生总成绩
+        ExamStudent examStudent = examStudentDao.selectByExamIdAndStuId(examId, stuId);
+        //设置学生总成绩
+        studentExamDetail.setTotalScore(examStudent.getTotalScore());
+
+        double score = 0;
+
         for (ExamQuestion examQuestion : examQuestions) {
             Question question = questionDao.queryById(examQuestion.getQuestionId());
             //查询出已经保存的有的数据，方便页面回显
@@ -312,7 +331,7 @@ public class ExamServiceImpl implements ExamService {
             answer = examRecord.getAnswer();
 
             setAnswer(answer, question);
-
+            score += question.getScore();
             if ("1".equals(question.getType())) {
                 //获取单选
                 radioQuestion.add(question);
@@ -336,6 +355,8 @@ public class ExamServiceImpl implements ExamService {
         studentExamDetail.setShortQuestion(shortQuestion);
         studentExamDetail.setJudgeQuestion(judgeQuestion);
         studentExamDetail.setBalckQuestion(blackQuestion);
+
+        studentExamDetail.setScore(score);
         return studentExamDetail;
     }
 

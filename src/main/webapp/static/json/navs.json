@@ -5,12 +5,6 @@
       "icon": "icon-text",
       "href": "/exam/student",
       "spread": false
-    },
-    {
-      "title": "我的成绩",
-      "icon": "icon-text",
-      "href": "/",
-      "spread": false
     }
   ],
   "memberCenter": [

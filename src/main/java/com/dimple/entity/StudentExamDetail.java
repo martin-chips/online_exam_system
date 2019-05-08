@@ -20,8 +20,10 @@ public class StudentExamDetail {
     private Long lastTime;
     //考试开始时间
     private Date startDate;
-    //总分
+    //试卷的总分
     private Double score;
+    //学生考试的总分
+    private Double totalScore;
     private List<Question> radioQuestion;
     private List<Question> checkboxQuestion;
     private List<Question> judgeQuestion;

@@ -43,6 +43,7 @@ public class StudentExamController extends BaseController {
         return "exam/exam";
     }
 
+
     @GetMapping("/list")
     @ResponseBody
     public TableDataInfo list(Exam exam) {
@@ -61,6 +62,7 @@ public class StudentExamController extends BaseController {
         return "exam/makeExam";
     }
 
+
     @PostMapping("/record")
     @ResponseBody
     public AjaxResult record(ExamRecord record) {
@@ -77,6 +79,12 @@ public class StudentExamController extends BaseController {
         }
     }
 
+    /**
+     * 结束考试
+     *
+     * @param examId
+     * @return
+     */
     @PostMapping("/finish")
     @ResponseBody
     public AjaxResult finish(Integer examId) {

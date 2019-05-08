@@ -83,6 +83,17 @@
                     sortable: true
                 },
                 {
+                    field: 'totalScore',
+                    title: '考试成绩',
+                    formatter: function (value, item, index) {
+                        if (item.accessed && item.totalScore != null) {
+                            return '<span class="label label-info">' + item.totalScore + '</span>';
+                        } else if (item.accessed && item.totalScore == null) {
+                            return '<span class="label label-danger">' + "正在阅卷中" + '</span>';
+                        }
+                    }
+                },
+                {
                     title: '操作',
                     align: 'center',
                     formatter: function (value, row, index) {

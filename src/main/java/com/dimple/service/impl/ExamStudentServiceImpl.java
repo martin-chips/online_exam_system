@@ -97,9 +97,19 @@ public class ExamStudentServiceImpl implements ExamStudentService {
         return examStudentDao.selectByExamIdAndStuId(examId, stuId);
     }
 
+    /**
+     * 批阅所有的客观题
+     *
+     * @param examId
+     * @param stuId
+     */
     private void ReadingExamObjective(Integer examId, Integer stuId) {
         //查询出所有的question id
         List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);
+        //获取所有的题的数量
+        int count = examQuestions.size();
+        double totalScore = 0;
+        int index = 0;
         for (ExamQuestion examQuestion : examQuestions) {
             //获取对应的question的信息
             Question question = questionDao.queryById(examQuestion.getQuestionId());
@@ -111,12 +121,20 @@ public class ExamStudentServiceImpl implements ExamStudentService {
                 case "4":
                     if (question.getAnswer().equals(examRecord.getAnswer())) {
                         examRecord.setFinalScore(question.getScore());
+                        totalScore += question.getScore();
                     } else {
                         examRecord.setFinalScore(0D);
                     }
+                    index++;
                     break;
             }
             examRecordDao.updateRecordFinalScore(examRecord);
+
+        }
+        //如果这两者相等，说明只有客观题，不需要老师来review
+        if (index == count) {
+            //更新试卷的状态为已阅
+            examStudentDao.updateReadingAndTotalScoreByStuIdAndExamId(stuId, examId, totalScore, "0");
         }
     }
 }
