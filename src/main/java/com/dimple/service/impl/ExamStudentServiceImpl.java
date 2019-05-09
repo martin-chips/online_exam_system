@@ -8,6 +8,7 @@ import com.dimple.entity.ExamRecord;
 import com.dimple.entity.ExamStudent;
 import com.dimple.dao.ExamStudentDao;
 import com.dimple.entity.Question;
+import com.dimple.entity.Score;
 import com.dimple.service.ExamStudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -97,6 +98,11 @@ public class ExamStudentServiceImpl implements ExamStudentService {
         return examStudentDao.selectByExamIdAndStuId(examId, stuId);
     }
 
+    @Override
+    public List<Score> findScoreList(Score score) {
+        return examStudentDao.selectScoreList(score);
+    }
+
     /**
      * 批阅所有的客观题
      *
@@ -129,7 +135,6 @@ public class ExamStudentServiceImpl implements ExamStudentService {
                     break;
             }
             examRecordDao.updateRecordFinalScore(examRecord);
-
         }
         //如果这两者相等，说明只有客观题，不需要老师来review
         if (index == count) {

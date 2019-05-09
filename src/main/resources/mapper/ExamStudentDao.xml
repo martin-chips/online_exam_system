@@ -44,6 +44,24 @@
         select  es_id, student_id, exam_id, status, total_score, reading from exam_student where exam_id=#{examId}
     </select>
 
+
+    <select id="selectScoreList" resultType="com.dimple.entity.Score">
+        select s.student_id as stu_id, s.exam_id, s.status, s.total_score, s.reading, u.nick_name as stu_name,
+        e.exam_name
+        from exam_student s,
+        sys_user u,
+        exam e
+        where s.student_id = u.id
+        and e.exam_id = s.exam_id
+        <if test="stuId !=null and stuId!= ''">
+            and u.id=#{stuId}
+        </if>
+        <if test="examName!=null and examName!=''">
+            and e.exam_name=#{examName}
+        </if>
+
+    </select>
+
     <!--新增所有列-->
     <insert id="insert" keyProperty="esId" useGeneratedKeys="true">
         insert into my_exam_test.exam_student(student_id, exam_id)

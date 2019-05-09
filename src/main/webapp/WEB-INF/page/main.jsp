@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html>
@@ -40,7 +41,8 @@
         <c:if test="${notice.type==2}">
             <div class="layui-timeline-title">
                 <h3 class="layui-inline">${notice.title}</h3>
-                <span class="layui-badge-rim">${notice.createDate}</span>
+                <span class="layui-badge-rim"><fmt:formatDate pattern="yyyy-MM-dd"
+                                                              value="${notice.createDate}"/>    </span>
             </div>
             <div class="layui-table-tips" style="margin-left: 10px">
                     ${notice.content}

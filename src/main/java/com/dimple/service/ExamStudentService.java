@@ -1,6 +1,7 @@
 package com.dimple.service;
 
 import com.dimple.entity.ExamStudent;
+import com.dimple.entity.Score;
 
 import java.util.List;
 
@@ -54,4 +55,12 @@ public interface ExamStudentService {
     int finishExam(Integer examId, Integer id);
 
     ExamStudent queryByExamIdAndStuId(Integer examId, Integer stuId);
+
+    /**
+     * 查询所有的成绩
+     *
+     * @param score 带有查询条件的成绩的实体
+     * @return 成绩列表
+     */
+    List<Score> findScoreList(Score score);
 }

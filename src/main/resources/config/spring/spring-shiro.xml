@@ -33,11 +33,7 @@
             <value>
                 <!-- 对静态资源设置允许匿名访问 -->
                 /static/**=anon
-                /layui/** = anon
-                /lib/** = anon
-                /modules/** = anon
-                /style/** = anon
-                /config.js = anon
+                static/**=anon
                 /genCaptcha=anon
 
                 /login=anon

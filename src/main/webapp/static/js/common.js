@@ -1460,6 +1460,7 @@ modal_status = {
 };
 
 layer.config({
+    offset:"100",
     extend: 'moon/style.css',
     skin: 'layer-ext-moon'
 });

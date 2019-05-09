@@ -1,6 +1,7 @@
 package com.dimple.dao;
 
 import com.dimple.entity.ExamStudent;
+import com.dimple.entity.Score;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -95,8 +96,16 @@ public interface ExamStudentDao {
      * @param stuId
      * @param examId
      * @param score
-     * @param s
+     * @param reading
      * @return
      */
     int updateReadingAndTotalScoreByStuIdAndExamId(@Param("stuId") Integer stuId, @Param("examId") Integer examId, @Param("score") Double score, @Param("reading") String reading);
+
+    /**
+     * 查询所有的成绩的集合
+     *
+     * @param score 成绩
+     * @return 成绩集合
+     */
+    List<Score> selectScoreList(Score score);
 }
