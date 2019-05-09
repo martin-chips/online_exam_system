@@ -246,6 +246,7 @@
      * 交卷
      */
     function doPaper() {
+        $.modal.loading("正在交卷中，请稍后...");
         $.ajax({
             url: "/exam/student/finish",
             data: {examId: $("#examId").val()},

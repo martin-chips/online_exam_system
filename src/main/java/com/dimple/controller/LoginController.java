@@ -53,11 +53,19 @@ public class LoginController {
     @Autowired
     SysUserService sysUserService;
 
+    /**
+     * 转到登录的页面
+     *
+     * @return
+     */
     @GetMapping("/login")
     public String login() {
         return "login";
     }
 
+    /**
+     * 处理登录请求
+     */
     @PostMapping("/login")
     @ResponseBody
     public RestResponse login(String password, String username, String rememberMe, HttpServletRequest request) {
@@ -65,13 +73,14 @@ public class LoginController {
         String code = request.getParameter("code");
         if (StringUtils.isBlank(code)) {
             return RestResponse.failure("验证码不能为空");
-        }
+        }//username="" username =null
         if (StringUtils.isBlank(username) || StringUtils.isBlank(password)) {
             return RestResponse.failure("用户名或者密码不能为空");
         }
         if (StringUtils.isBlank(rememberMe)) {
             return RestResponse.failure("记住我不能为空");
         }
+
         //获取正确的验证码
         HttpSession session = request.getSession();
         if (session == null) {
@@ -87,6 +96,7 @@ public class LoginController {
         if (StringUtils.isBlank(code) || !trueCode.toLowerCase().equals(code.toLowerCase())) {
             errorMsg = "验证码错误";
         } else {
+            //shiro
             Subject subject = SecurityUtils.getSubject();
             UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(username, password, Boolean.valueOf(rememberMe));
             try {
@@ -111,6 +121,7 @@ public class LoginController {
                 errorMsg = "您没有得到相应的授权！";
             }
         }
+
         if (StringUtils.isBlank(errorMsg)) {
             return RestResponse.success("登录成功").setData(map);
         } else {

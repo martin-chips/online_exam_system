@@ -63,6 +63,7 @@ public class NoticeController extends BaseController {
 
     @DeleteMapping()
     @ResponseBody
+    //1,2,4,5
     public AjaxResult delete(String ids) {
         return toAjax(noticeService.deleteByIds(ids));
     }

@@ -152,6 +152,7 @@
             });
 
         });
+
         var data = $("#checkedQuestion").val();
         var prefix = "/onlineExam/question";
         $(function () {

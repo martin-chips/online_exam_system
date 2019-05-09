@@ -8,6 +8,7 @@ import com.dimple.utils.Convert;
 import com.dimple.utils.StringUtils;
 import com.dimple.utils.WebUtils;
 import org.apache.shiro.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,9 +21,9 @@ import java.util.UUID;
  * @author makejava
  * @since 2019-05-01 00:15:15
  */
-@Service("sysUserService")
+@Service
 public class SysUserServiceImpl implements SysUserService {
-    @Resource
+    @Autowired
     private SysUserDao sysUserDao;
 
     /**

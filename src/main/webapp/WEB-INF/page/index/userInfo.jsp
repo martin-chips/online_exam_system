@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <%@include file="../common/include-header.jsp" %>
@@ -19,10 +20,17 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">用户角色</label>
+            <label class="layui-form-label">角色</label>
             <div class="layui-input-block">
-                <input type="checkbox" disabled title="${item.name}"
-                       value="${user.userType=='1'?"管理员":(user.userType==2?"教师":"学生")}" checked>
+                <c:if test="${user.userType.equals('1')}">
+                    <span>管理员</span>
+                </c:if>
+                <c:if test="${user.userType.equals('2')}">
+                    <span>教师</span>
+                </c:if>
+                <c:if test="${user.userType.equals('3')}">
+                    <span value="">学生</span>
+                </c:if>
             </div>
         </div>
         <div class="layui-form-item">
@@ -40,7 +48,7 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">自我介绍</label>
+            <label class="layui-form-label">备注</label>
             <div class="layui-input-block">
                 <textarea placeholder="请输入内容" class="layui-textarea myself"
                           name="remark">${user.remark}</textarea>

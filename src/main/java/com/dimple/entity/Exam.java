@@ -31,7 +31,7 @@ public class Exam extends BaseEntity {
     //试卷的总分
     private Double score;
 
-    //总分
+    //学生考试总分
     private Double totalScore;
 
     /**
@@ -52,7 +52,16 @@ public class Exam extends BaseEntity {
      */
     private Boolean accessed;
 
+    /**
+     * 当前试卷的学生的id
+     */
     private Integer studentId;
+    /**
+     * 学生的姓名
+     */
     private String studentName;
+    /**
+     * 是否已经批阅
+     */
     private String reading;
 }

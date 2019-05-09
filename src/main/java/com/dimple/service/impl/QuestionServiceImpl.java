@@ -72,8 +72,6 @@ public class QuestionServiceImpl implements QuestionService {
     @Override
     public int insert(Question question) {
         return this.questionDao.insert(question);
-
-
     }
 
     /**

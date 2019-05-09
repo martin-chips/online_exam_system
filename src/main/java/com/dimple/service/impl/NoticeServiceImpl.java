@@ -4,6 +4,7 @@ import com.dimple.entity.Notice;
 import com.dimple.dao.NoticeDao;
 import com.dimple.service.NoticeService;
 import com.dimple.utils.Convert;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -15,9 +16,9 @@ import java.util.List;
  * @author makejava
  * @since 2019-05-01 11:41:47
  */
-@Service("noticeService")
+@Service
 public class NoticeServiceImpl implements NoticeService {
-    @Resource
+    @Autowired
     private NoticeDao noticeDao;
 
     /**

@@ -25,7 +25,7 @@ public class IndexController {
     @Autowired
     NoticeService noticeService;
 
-    @GetMapping("/index")
+    @GetMapping({"/index"})
     public String index() {
         return "index";
     }

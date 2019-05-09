@@ -55,6 +55,7 @@
 <%@include file="../../common/include-footer.jsp" %>
 <script th:inline="javascript">
     var prefix = "/system/user";
+
     $(function () {
         var options = {
             url: prefix + "/list",

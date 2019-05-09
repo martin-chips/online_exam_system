@@ -9,9 +9,8 @@
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd
                         http://www.springframework.org/schema/mvc
                         http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
-
-    <context:component-scan base-package="com.dimple.controller"/>
     <context:component-scan base-package="com.dimple.aspect"/>
+
     <!--     启用注解-->
     <mvc:annotation-driven/>
 
@@ -24,12 +23,13 @@
 
     <mvc:default-servlet-handler/>
 
+
     <!-- 启动AOP AspectJ注解自动代理 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
 
-    <aop:aspectj-autoproxy/>
-    <!-- 通知spring使用cglib而不是jdk的来生成代理方法 AOP可以拦截到Controller -->
-
-    <aop:config proxy-target-class="true"></aop:config>
-
+    <!-- 指定自定义注解类的路径 及 配置在Controller上添加自定义注解来接收数据 -->
+    <context:component-scan base-package="com.dimple.controller">
+        <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+    </context:component-scan>
 
 </beans>

@@ -40,6 +40,7 @@ public class LogAspect {
 
     @Autowired
     private GlobalExceptionHandler exceptionHandle;
+
     @Autowired
     SysLogService sysLogService;
 

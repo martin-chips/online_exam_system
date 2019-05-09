@@ -266,6 +266,7 @@
     }
 
     function finishReview() {
+        $.modal.loading("正在批卷中，请稍后...");
         $.ajax({
             data: {"examId": $("#examId").val(), "stuId": $("#stuId").val()},
             url: "/onlineExam/review/finisReview",

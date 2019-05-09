@@ -14,7 +14,7 @@ import java.util.List;
  * @author makejava
  * @since 2019-05-01 11:39:01
  */
-@Service("examQuestionService")
+@Service
 public class ExamQuestionServiceImpl implements ExamQuestionService {
     @Resource
     private ExamQuestionDao examQuestionDao;
