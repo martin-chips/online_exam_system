@@ -11,7 +11,7 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            用户名称：<input type="text" name="nickName"/>
+                            用户名称：<input type="text" name="username"/>
                         </li>
                         <li>
                             用户账号：<input type="text" name="loginName"/>
@@ -36,72 +36,72 @@
         </div>
 
         <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()">
-                <i class="fa fa-plus"></i> 新增
-            </a>
-            <a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()">
-                <i class="fa fa-edit"></i> 修改
-            </a>
             <a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()">
                 <i class="fa fa-remove"></i> 删除
             </a>
         </div>
-
         <div class="col-sm-12 select-table table-striped">
             <table id="bootstrap-table" data-mobile-responsive="true"></table>
         </div>
     </div>
 </div>
 <%@include file="../../common/include-footer.jsp" %>
-<script th:inline="javascript">
-    var prefix = "/system/notice";
+<script>
+    var prefix = "/system/log";
     $(function () {
         var options = {
             url: prefix + "/list",
-            createUrl: prefix + "/add",
-            updateUrl: prefix + "/update/{id}",
             removeUrl: prefix,
+            detailUrl: prefix + "/detail/{id}",
             sortName: "",
-            height: 500,
-            modalName: "公告",
+            height: 600,
+            modalName: "日志",
             columns: [{
                 checkbox: true
             },
                 {
-                    field: 'noticeId',
-                    title: '公告编号'
-                },
-                {
-                    field: 'title',
-                    title: '公告标题',
-                    sortable: true
+                    field: 'id',
+                    title: 'ID'
                 },
                 {
                     field: 'type',
-                    title: '公告类型',
-                    formatter: function (value, item, index) {
-                        if (item.type == '1') {
-                            return '<span class="label label-success">通知</span>';
-                        } else if (item.type == '2') {
-                            return '<span class="label label-primary">公告</span>';
-                        }
-                    }
+                    title: '请求类型'
+                },
+                {
+                    field: 'username',
+                    title: '操作者'
+                },
+                {
+                    field: 'requestUri',
+                    title: '请求地址'
+                },
+                {
+                    field: 'httpMethod',
+                    title: '操作方式'
+                },
+                {
+                    field: 'useTime',
+                    title: '执行时间(ms)'
+                },
+                {
+                    field: 'browser',
+                    title: '浏览器'
                 },
                 {
                     field: 'createDate',
                     title: '创建时间',
-                    sortable: true
-                },
+                }, //单元格内容水平居中
                 {
                     title: '操作',
                     align: 'center',
                     formatter: function (value, row, index) {
                         var actions = [];
-                        actions.push('<a class="btn btn-success btn-xs ' + '" href="#" onclick="$.operate.edit(\'' + row.noticeId + '\')"><i class="fa fa-edit"></i>编辑</a> ');
-                        actions.push('<a class="btn btn-danger btn-xs ' + '" href="#" onclick="$.operate.remove(\'' + row.noticeId + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        actions.push('<a class="btn btn-warning btn-xs ' + '" href="#" onclick="$.operate.detail(\'' + row.id + '\')"><i class="fa fa-edit"></i>详细</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + '" href="#" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
                         return actions.join('');
                     }
-                }]
+                }
+            ]
         };
         $.table.init(options);
     });

@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.Exam;
 import com.dimple.entity.ExamRecord;
 import com.dimple.entity.SysUser;
@@ -72,6 +73,7 @@ public class TeacherReviewController extends BaseController {
 
     //完成阅卷，提交阅卷的结果，返回index界面，并更新e—s中，total-Score的值
     @PostMapping("/finisReview")
+    @Log("完成阅卷")
     public String finishReview(Integer examId, Integer stuId) {
         examRecordService.finishReview(examId, stuId);
         return "/index";

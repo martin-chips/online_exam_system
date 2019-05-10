@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.Notice;
 import com.dimple.service.NoticeService;
 import com.dimple.utils.web.AjaxResult;
@@ -43,6 +44,7 @@ public class NoticeController extends BaseController {
         return "system/notice/add";
     }
 
+    @Log("添加公告")
     @PostMapping("add")
     @ResponseBody
     public AjaxResult addSave(Notice notice) {
@@ -55,6 +57,7 @@ public class NoticeController extends BaseController {
         return "system/notice/update";
     }
 
+    @Log("修改公告")
     @PutMapping("update")
     @ResponseBody
     public AjaxResult updateSave(Notice notice) {
@@ -63,7 +66,7 @@ public class NoticeController extends BaseController {
 
     @DeleteMapping()
     @ResponseBody
-    //1,2,4,5
+    @Log("删除公告")
     public AjaxResult delete(String ids) {
         return toAjax(noticeService.deleteByIds(ids));
     }

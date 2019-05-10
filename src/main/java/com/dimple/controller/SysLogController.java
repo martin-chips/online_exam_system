@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.SysLog;
 import com.dimple.service.SysLogService;
 import com.dimple.utils.web.AjaxResult;
@@ -42,6 +43,7 @@ public class SysLogController extends BaseController {
 
     @DeleteMapping()
     @ResponseBody
+    @Log("删除日志")
     public AjaxResult delete(String ids) {
         return toAjax(sysLogService.deleteSysLogByIds(ids));
     }

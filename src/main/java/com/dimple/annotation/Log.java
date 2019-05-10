@@ -1,6 +1,8 @@
 package com.dimple.annotation;
 
 
+import org.springframework.context.annotation.Bean;
+
 import java.lang.annotation.Documented;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Inherited;

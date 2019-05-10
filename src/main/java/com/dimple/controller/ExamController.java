@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.Exam;
 import com.dimple.entity.SysUser;
 import com.dimple.service.ExamService;
@@ -22,7 +23,7 @@ import java.util.List;
 @Controller
 @RequestMapping("onlineExam/exam")
 public class ExamController extends BaseController {
-//插入字符
+    //插入字符
     @Autowired
     private ExamService examService;
     @Autowired
@@ -51,11 +52,13 @@ public class ExamController extends BaseController {
         return "onlineExam/exam/add";
     }
 
+    @Log("添加试卷")
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(Exam exam) {
         return toAjax(examService.insert(exam));
     }
+
     @GetMapping("/update/{id}")
     public String update(@PathVariable Integer id, Model model) {
         Exam exam = examService.queryById(id);
@@ -77,12 +80,14 @@ public class ExamController extends BaseController {
         return "onlineExam/exam/update";
     }
 
+    @Log("修改试卷")
     @PutMapping("/update")
     @ResponseBody
     public AjaxResult updateSave(Exam exam) {
         return toAjax(examService.update(exam));
     }
 
+    @Log("删除试卷")
     @DeleteMapping()
     @ResponseBody
     public AjaxResult delete(String ids) {

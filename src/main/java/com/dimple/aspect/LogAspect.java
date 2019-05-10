@@ -8,6 +8,7 @@ import com.dimple.exception.GlobalExceptionHandler;
 import com.dimple.service.SysLogService;
 import com.dimple.shiro.UserRealm;
 import com.dimple.utils.WebUtils;
+import lombok.extern.apachecommons.CommonsLog;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.aspectj.lang.JoinPoint;
@@ -105,7 +106,7 @@ public class LogAspect {
             sysLog.setIsp(map.get("isp"));
         }
         sysLog.setType(WebUtils.isAjax(request) ? "Ajax请求" : "普通请求");
-        UserRealm.ShiroUser principals = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipals();
+        UserRealm.ShiroUser principals = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
         if (principals != null) {
             sysLog.setUsername(StringUtils.isNotBlank(principals.getNickName()) ? principals.getNickName() : principals.getLoginName());
         }
@@ -125,7 +126,7 @@ public class LogAspect {
 
     @AfterReturning(returning = "ret", pointcut = "webLog()")
     public void doAfterReturning(Object ret) {
-        UserRealm.ShiroUser principals = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipals();
+        UserRealm.ShiroUser principals = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();
         if (principals != null) {
             sysLog.setUsername(StringUtils.isNotBlank(principals.getNickName()) ? principals.getNickName() : principals.getLoginName());
         }

@@ -1,6 +1,7 @@
 package com.dimple.controller;
 
 import com.alibaba.druid.sql.visitor.functions.If;
+import com.dimple.annotation.Log;
 import com.dimple.entity.Exam;
 import com.dimple.entity.ExamRecord;
 import com.dimple.service.ExamRecordService;
@@ -62,6 +63,7 @@ public class StudentExamController extends BaseController {
     /**
      * 开始考试
      */
+    @Log("开始考试")
     @GetMapping("/{examId}")
     public String startExam(@PathVariable Integer examId, Model model) {
         model.addAttribute("exam", examService.getExamForStudentByExamId(examId, getSysUser().getId()));
@@ -94,6 +96,7 @@ public class StudentExamController extends BaseController {
      * @param examId
      * @return
      */
+    @Log("结束考试")
     @PostMapping("/finish")
     @ResponseBody
     public AjaxResult finish(Integer examId) {

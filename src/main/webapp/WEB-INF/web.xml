@@ -89,23 +89,23 @@
     </servlet-mapping>
 
 
-    <!--    &lt;!&ndash;    配置404异常界面&ndash;&gt;
-        <error-page>
-            <error-code>404</error-code>
-            <location>/error/404</location>
-        </error-page>
+    <!--   配置404异常界面-->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/error/404</location>
+    </error-page>
 
-        &lt;!&ndash;    配置500异常界面&ndash;&gt;
-        <error-page>
-            <error-code>500</error-code>
-            <location>/error/500</location>
-        </error-page>
+    <!--       配置500异常界面-->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/error/500</location>
+    </error-page>
 
-        &lt;!&ndash;    配置403异常界面&ndash;&gt;
-        <error-page>
-            <error-code>403</error-code>
-            <location>/error/403</location>
-        </error-page>-->
+    <!--    配置403异常界面-->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/error/403</location>
+    </error-page>
 
     <!-- 解决ajax put delete请求过滤 -->
     <filter>

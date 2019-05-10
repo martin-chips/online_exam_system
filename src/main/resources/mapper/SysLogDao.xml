@@ -25,187 +25,100 @@
         <result property="createDate" column="create_date"/>
         <result property="updateBy" column="update_by"/>
         <result property="updateDate" column="update_date"/>
-        <result property="remarks" column="remarks"/>
+        <result property="remark" column="remark"/>
         <result property="delFlag" column="del_flag"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="SysLogMap">
-       select  id, type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response, use_time, browser, area, province, city, isp, "exception", create_by, create_date, update_by, update_date, remarks, del_flag from sys_log where id=#{id}
+       select  id, type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response, use_time, browser, area, province, city, isp, "exception", create_by, create_date, update_by, update_date, remark, del_flag from sys_log where id=#{id}
     </select>
 
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="SysLogMap">
         select
-        id, type, title, remote_addr, username, request_uri, http_method, class_method, params, session_id, response,
+        id, type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response,
         use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date,
-        remarks, del_flag
+        remark, del_flag
         from sys_log
-        <where>
-            <if test="id != null">
-                and id = #{id}
-            </if>
-            <if test="type != null and type != ''">
-                and type = #{type}
-            </if>
-            <if test="title != null and title != ''">
-                and title = #{title}
-            </if>
-            <if test="remoteAddr != null and remoteAddr != ''">
-                and remote_addr = #{remoteAddr}
-            </if>
-            <if test="username != null and username != ''">
-                and username = #{username}
-            </if>
-            <if test="requestUri != null and requestUri != ''">
-                and request_uri = #{requestUri}
-            </if>
-            <if test="httpMethod != null and httpMethod != ''">
-                and http_method = #{httpMethod}
-            </if>
-            <if test="classMethod != null and classMethod != ''">
-                and class_method = #{classMethod}
-            </if>
-            <if test="params != null and params != ''">
-                and params = #{params}
-            </if>
-            <if test="sessionId != null and sessionId != ''">
-                and session_id = #{sessionId}
-            </if>
-            <if test="response != null and response != ''">
-                and response = #{response}
-            </if>
-            <if test="useTime != null">
-                and use_time = #{useTime}
-            </if>
-            <if test="browser != null and browser != ''">
-                and browser = #{browser}
-            </if>
-            <if test="area != null and area != ''">
-                and area = #{area}
-            </if>
-            <if test="province != null and province != ''">
-                and province = #{province}
-            </if>
-            <if test="city != null and city != ''">
-                and city = #{city}
-            </if>
-            <if test="isp != null and isp != ''">
-                and isp = #{isp}
-            </if>
-            <if test="exception != null and exception != ''">
-                and exception = #{exception}
-            </if>
-            <if test="createBy != null and createBy != ''">
-                and create_by = #{createBy}
-            </if>
-            <if test="createDate != null">
-                and create_date = #{createDate}
-            </if>
-            <if test="updateBy != null">
-                and update_by = #{updateBy}
-            </if>
-            <if test="updateDate != null">
-                and update_date = #{updateDate}
-            </if>
-            <if test="remarks != null and remarks != ''">
-                and remarks = #{remarks}
-            </if>
-            <if test="delFlag != null">
-                and del_flag = #{delFlag}
-            </if>
-        </where>
+        where del_flag is null
+        <if test="type != null and type != ''">
+            and type = #{type}
+        </if>
+        <if test="username != null and username != ''">
+            and username = #{username}
+        </if>
+        <if test="params.beginTime != null and params.beginTime != ''"><!-- 开始时间检索 -->
+            and date_format(create_date,'%y%m%d') &gt;= date_format(#{params.beginTime},'%y%m%d')
+        </if>
+        <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
+            and date_format(create_date,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
+        </if>
+        <if test="remark != null and remark != ''">
+            and remark = #{remark}
+        </if>
+        <if test="delFlag != null">
+            and del_flag = #{delFlag}
+        </if>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-        insert into my_exam_test.sys_log(type, title, remote_addr, username, request_uri, http_method, class_method, data, session_id, response, use_time, browser, area, province, city, isp, exception, create_by, create_date, update_by, update_date, remarks, del_flag)
-        values (#{type}, #{title}, #{remoteAddr}, #{username}, #{requestUri}, #{httpMethod}, #{classMethod}, #{params}, #{sessionId}, #{response}, #{useTime}, #{browser}, #{area}, #{province}, #{city}, #{isp}, #{exception}, #{createBy}, #{createDate}, #{updateBy}, #{updateDate}, #{remarks}, #{delFlag})
+        insert into sys_log(
+        <if test="type != null and type != ''">type,</if>
+        <if test="title != null">title,</if>
+        <if test="remoteAddr != null and remoteAddr != ''">remote_addr,</if>
+        <if test="username != null and username != ''">username,</if>
+        <if test="requestUri != null and requestUri != ''">request_uri,</if>
+        <if test="httpMethod != null and httpMethod != ''">http_method,</if>
+        <if test="classMethod != null and classMethod != ''">class_method,</if>
+        <if test="data != null and data != ''">data,</if>
+        <if test="sessionId != null and sessionId != ''">session_id,</if>
+        <if test="response != null and response != ''">response,</if>
+        <if test="useTime != null and useTime != ''">use_time,</if>
+        <if test="browser != null and browser != ''">browser,</if>
+        <if test="area != null and area != ''">area,</if>
+        <if test="province != null and province != ''">province,</if>
+        <if test="city != null and city != ''">city,</if>
+        <if test="isp != null and isp != ''">isp,</if>
+        <if test="exception != null and exception != ''">exception,</if>
+        <if test="createBy != null and createBy != ''">create_by,</if>
+        <if test="remark != null and remark != ''">remark,</if>
+        <if test="delFlag != null and delFlag != ''">del_flag,</if>
+        create_date
+        )values(
+        <if test="type != null and type != ''">#{type},</if>
+        <if test="title != null ">#{title},</if>
+        <if test="remoteAddr != null and remoteAddr != ''">#{remoteAddr},</if>
+        <if test="username != null and username != ''">#{username},</if>
+        <if test="requestUri != null and requestUri != ''">#{requestUri},</if>
+        <if test="httpMethod != null and httpMethod != ''">#{httpMethod},</if>
+        <if test="classMethod != null and classMethod != ''">#{classMethod},</if>
+        <if test="data != null and data != ''">#{data},</if>
+        <if test="sessionId != null and sessionId != ''">#{sessionId},</if>
+        <if test="response != null and response != ''">#{response},</if>
+        <if test="useTime != null and useTime != ''">#{useTime},</if>
+        <if test="browser != null and browser != ''">#{browser},</if>
+        <if test="area != null and area != ''">#{area},</if>
+        <if test="province != null and province != ''">#{province},</if>
+        <if test="city != null and city != ''">#{city},</if>
+        <if test="isp != null and isp != ''">#{isp},</if>
+        <if test="exception != null and exception != ''">#{exception},</if>
+        <if test="createBy != null and createBy != ''">#{createBy},</if>
+        <if test="remark != null and remark != ''">#{remark},</if>
+        <if test="delFlag != null and delFlag != ''">#{delFlag},</if>
+        sysdate()
+        )
     </insert>
-
-    <!--通过主键修改数据-->
-    <update id="update">
-        update my_exam_test.sys_log
-        <set>
-            <if test="type != null and type != ''">
-                type = #{type},
-            </if>
-            <if test="title != null and title != ''">
-                title = #{title},
-            </if>
-            <if test="remoteAddr != null and remoteAddr != ''">
-                remote_addr = #{remoteAddr},
-            </if>
-            <if test="username != null and username != ''">
-                username = #{username},
-            </if>
-            <if test="requestUri != null and requestUri != ''">
-                request_uri = #{requestUri},
-            </if>
-            <if test="httpMethod != null and httpMethod != ''">
-                http_method = #{httpMethod},
-            </if>
-            <if test="classMethod != null and classMethod != ''">
-                class_method = #{classMethod},
-            </if>
-            <if test="params != null and params != ''">
-                params = #{params},
-            </if>
-            <if test="sessionId != null and sessionId != ''">
-                session_id = #{sessionId},
-            </if>
-            <if test="response != null and response != ''">
-                response = #{response},
-            </if>
-            <if test="useTime != null">
-                use_time = #{useTime},
-            </if>
-            <if test="browser != null and browser != ''">
-                browser = #{browser},
-            </if>
-            <if test="area != null and area != ''">
-                area = #{area},
-            </if>
-            <if test="province != null and province != ''">
-                province = #{province},
-            </if>
-            <if test="city != null and city != ''">
-                city = #{city},
-            </if>
-            <if test="isp != null and isp != ''">
-                isp = #{isp},
-            </if>
-            <if test="exception != null and exception != ''">
-                exception = #{exception},
-            </if>
-            <if test="createBy != null and createBy != ''">
-                create_by = #{createBy},
-            </if>
-            <if test="createDate != null">
-                create_date = #{createDate},
-            </if>
-            <if test="updateBy != null">
-                update_by = #{updateBy},
-            </if>
-            <if test="updateDate != null">
-                update_date = #{updateDate},
-            </if>
-            <if test="remarks != null and remarks != ''">
-                remarks = #{remarks},
-            </if>
-            <if test="delFlag != null">
-                del_flag = #{delFlag},
-            </if>
-        </set>
-        where id = #{id}
-    </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
         delete from sys_log where id = #{id}
     </delete>
+
+
     <delete id="deleteByIds">
-        delete from sys_log where id in
+        update sys_log set del_flag = 1 where id in
         <foreach collection="array" open="(" close=")" separator="," item="id">
             #{id}
         </foreach>

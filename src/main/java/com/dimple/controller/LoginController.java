@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.service.SysUserService;
 import com.dimple.shiro.UserRealm;
 import com.dimple.utils.Constants;
@@ -68,6 +69,7 @@ public class LoginController {
      */
     @PostMapping("/login")
     @ResponseBody
+    @Log("登录系统")
     public RestResponse login(String password, String username, String rememberMe, HttpServletRequest request) {
         //获取验证码
         String code = request.getParameter("code");

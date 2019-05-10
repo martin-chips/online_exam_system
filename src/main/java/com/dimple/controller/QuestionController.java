@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.Question;
 import com.dimple.service.QuestionService;
 import com.dimple.utils.web.AjaxResult;
@@ -46,6 +47,7 @@ public class QuestionController extends BaseController {
 
     @PostMapping("/add")
     @ResponseBody
+    @Log("添加试题")
     public AjaxResult addSave(Question question) {
         return toAjax(questionService.insert(question));
     }
@@ -57,6 +59,7 @@ public class QuestionController extends BaseController {
     }
 
     @PutMapping("/update")
+    @Log("修改试题")
     @ResponseBody
     public AjaxResult updateSave(Question question) {
         return toAjax(questionService.update(question));
@@ -64,6 +67,7 @@ public class QuestionController extends BaseController {
 
     @DeleteMapping()
     @ResponseBody
+    @Log("删除试题")
     public AjaxResult delete(String ids) {
         return toAjax(questionService.deleteByIds(ids));
     }
