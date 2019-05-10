@@ -1,5 +1,6 @@
 package com.dimple.controller;
 
+import com.dimple.annotation.Log;
 import com.dimple.entity.Notice;
 import com.dimple.service.NoticeService;
 import com.dimple.service.SysUserService;
@@ -25,6 +26,7 @@ public class IndexController {
     @Autowired
     NoticeService noticeService;
 
+    @Log
     @GetMapping({"/index"})
     public String index() {
         return "index";
@@ -37,6 +39,7 @@ public class IndexController {
     }
 
 
+    @Log("获取用户信息")
     @GetMapping("/userInfo")
     public String userInfo(Model model) {
         UserRealm.ShiroUser principal = (UserRealm.ShiroUser) SecurityUtils.getSubject().getPrincipal();

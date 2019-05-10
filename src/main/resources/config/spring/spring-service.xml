@@ -8,6 +8,4 @@
                         http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
 
-    <context:component-scan base-package="com.dimple.service"/>
-
 </beans>

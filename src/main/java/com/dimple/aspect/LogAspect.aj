@@ -19,6 +19,7 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -48,6 +49,7 @@ public class LogAspect {
 
     @Pointcut("@annotation(com.dimple.annotation.Log)")
     public void webLog() {
+        System.out.println("111111");
     }
 
     @Before("webLog()")

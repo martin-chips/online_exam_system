@@ -30,7 +30,7 @@ public class ExamController extends BaseController {
 
     @GetMapping()
     public String exam() {
-        return "onlineExam/exam/ex am";
+        return "onlineExam/exam/exam";
     }
 
     @GetMapping("/list")
