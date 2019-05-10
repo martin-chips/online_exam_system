@@ -22,9 +22,7 @@ import java.util.List;
 @Controller
 @RequestMapping("onlineExam/exam")
 public class ExamController extends BaseController {
-    /**
-     * 服务对象
-     */
+//插入字符
     @Autowired
     private ExamService examService;
     @Autowired
@@ -32,7 +30,7 @@ public class ExamController extends BaseController {
 
     @GetMapping()
     public String exam() {
-        return "onlineExam/exam/exam";
+        return "onlineExam/exam/ex am";
     }
 
     @GetMapping("/list")
@@ -58,7 +56,6 @@ public class ExamController extends BaseController {
     public AjaxResult addSave(Exam exam) {
         return toAjax(examService.insert(exam));
     }
-
     @GetMapping("/update/{id}")
     public String update(@PathVariable Integer id, Model model) {
         Exam exam = examService.queryById(id);

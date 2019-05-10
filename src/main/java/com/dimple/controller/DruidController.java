@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
- * SQL监控Druid的界面显示
+ * SQL监控Druid的界面显示（管理员端的数据监控）
  */
 @Controller
 @RequestMapping("/druid")

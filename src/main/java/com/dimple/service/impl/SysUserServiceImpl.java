@@ -41,7 +41,7 @@ public class SysUserServiceImpl implements SysUserService {
      * 新增数据
      *
      * @param sysUser 实例对象
-     * @return 实例对象
+     * @return 受影响的行数
      */
     @Override
     public int insert(SysUser sysUser) {

@@ -10,7 +10,7 @@ public class Score {
     /**
      * 学生的id
      */
-    private int stuId;
+    private Integer stuId;
     /**
      * 学生学号
      */

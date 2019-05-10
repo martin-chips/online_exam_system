@@ -24,10 +24,16 @@
             </div>
             <div class="col-lg-4 text-left">
                 <button type="button" class="btn btn-info" onclick="doPaper(false)">交卷</button>
-                <button type="button" class="btn btn-info" onclick="javascript:history.back(-1);">返回</button>
+                <button type="button" class="btn btn-info" onclick="returnFun()">返回</button>
                 &nbsp;&nbsp;
             </div>
         </nav>
+        <video class="text-right" id="video" width="480" height="320" style="    width: 200px;
+    height: 200px;
+    position: fixed;
+    right: 30px;
+    margin-top: 30px;">
+        </video>
 
         <div class="text-center" style="margin-top: 100px">
             <h1 class="h1 text-center text-warning ">${exam.examName} </h1>
@@ -198,14 +204,57 @@
 
 <script>
 
+    //访问用户媒体设备的兼容方法
+    function getUserMedia(constraints, success, error) {
+        if (navigator.mediaDevices.getUserMedia) {
+            //最新的标准API
+            navigator.mediaDevices.getUserMedia(constraints).then(success).catch(error);
+        } else if (navigator.webkitGetUserMedia) {
+            //webkit核心浏览器
+            navigator.webkitGetUserMedia(constraints, success, error)
+        } else if (navigator.mozGetUserMedia) {
+            //firfox浏览器
+            navigator.mozGetUserMedia(constraints, success, error);
+        } else if (navigator.getUserMedia) {
+            //旧版API
+            navigator.getUserMedia(constraints, success, error);
+        }
+    }
+
+    var video = document.getElementById('video');
+
+    function success(stream) {
+        //兼容webkit核心浏览器
+        var CompatibleURL = window.URL || window.webkitURL;
+        //将视频流设置为video元素的源
+        console.log(stream);
+        //video.src = CompatibleURL.createObjectURL(stream);
+        video.srcObject = stream;
+        video.play();
+    }
+
+    function error(error) {
+        console.log(`访问用户媒体设备失败${error.name}, ${error.message}`);
+    }
+
+    if (navigator.mediaDevices.getUserMedia || navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia) {
+        //调用用户媒体设备, 访问摄像头
+        getUserMedia({video: {width: 480, height: 320}}, success, error);
+    } else {
+        alert('不支持访问用户媒体');
+    }
+
+
     $(function () {
-        $.modal.alertWarningWithTitle("系统提示","您需要在指定时间填写试卷，然后点击提交按钮！<br> 断电或异常情况导致浏览器关闭，请重新登录系统即可，已经填写的答案不会丢失！")
+        $.modal.alertWarningWithTitle("系统提示", "您需要在指定时间填写试卷，然后点击提交按钮！<br> 断电或异常情况导致浏览器关闭，请重新登录系统即可，已经填写的答案不会丢失！")
     });
 
+
+    //多选题
     $("input[mtype='Multiple']").on('ifChecked ifUnchecked', function (event) {
         var multipleValue = "";
         $('input[name="' + $(this).attr("name") + '"]:checked').each(function () {
-            multipleValue += $(this).val() + ",";
+            multipleValue += $(this).val() + ",";//A,B,C,
         });
         if (multipleValue.length > 0) {
             multipleValue = multipleValue.substring(0, multipleValue.length - 1);
@@ -276,6 +325,12 @@
         })
     }
 
+
+    function returnFun() {
+        layer.confirm("关闭后你可以继续登录系统答题，已经填写的答案不会丢失，请确定是否退出？",function () {
+          window.opener=null;window.close();
+        })
+    }
 </script>
 
 </body>

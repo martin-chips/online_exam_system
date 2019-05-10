@@ -33,7 +33,7 @@
     <!--通过实体作为筛选条件查询-->
     <select id="queryAll" resultMap="SysUserMap">
         select
-        id, login_name, nick_name, icon, tel, email, locked, create_date, create_by, remark, del_flag, user_type
+           id, login_name, nick_name, icon, tel, email, locked, create_date, create_by, remark, del_flag, user_type
         from sys_user
         <where>
             <if test="loginName != null and loginName != ''">

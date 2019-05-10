@@ -114,11 +114,12 @@ public class ExamStudentServiceImpl implements ExamStudentService {
         List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);
         //获取所有的题的数量
         int count = examQuestions.size();
-        double totalScore = 0;
-        int index = 0;
+        double totalScore = 0;//试卷考试总分
+        int index = 0;//试题数量
         for (ExamQuestion examQuestion : examQuestions) {
             //获取对应的question的信息
             Question question = questionDao.queryById(examQuestion.getQuestionId());
+
             ExamRecord examRecord = examRecordDao.selectRecordByExamIdAndQuestionIdAndStuId(examId, question.getId(), stuId);
             switch (question.getType()) {
                 //单选和多选,判断
@@ -129,7 +130,7 @@ public class ExamStudentServiceImpl implements ExamStudentService {
                         examRecord.setFinalScore(question.getScore());
                         totalScore += question.getScore();
                     } else {
-                        examRecord.setFinalScore(0D);
+                        examRecord.setFinalScore(0d);
                     }
                     index++;
                     break;

@@ -12,10 +12,10 @@
                 <div class="select-list">
                     <ul>
                         <li>
-                            试题名称：<input type="text" name="nickName"/>
+                            试卷名称：<input type="text" name="examName"/>
                         </li>
                         <li>
-                            试题类型：<input type="text" name="loginName"/>
+                            学生ID：<input type="text" name="stuId"/>
                         </li>
                         <li class="select-time">
                             <label>创建时间： </label>
@@ -34,18 +34,6 @@
                     </ul>
                 </div>
             </form>
-        </div>
-
-        <div class="btn-group-sm" id="toolbar" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()">
-                <i class="fa fa-plus"></i> 新增
-            </a>
-            <a class="btn btn-primary btn-edit disabled" onclick="$.operate.edit()">
-                <i class="fa fa-edit"></i> 修改
-            </a>
-            <a class="btn btn-danger btn-del disabled" onclick="$.operate.removeAll()">
-                <i class="fa fa-remove"></i> 删除
-            </a>
         </div>
 
         <div class="col-sm-12 select-table table-striped">
@@ -95,7 +83,7 @@
                     formatter: function (value, row, index) {
                         if (row.reading == '0') {
                             return '<span class="label label-info">' + row.totalScore + '</span>';
-                        }else if (row.status=='0') {
+                        } else if (row.status == '0') {
                             return '<span class="label label-danger">未参考</span>';
                         } else if (row.reading == '1') {
                             return '<span class="label label-primary">尚未阅卷</span>';

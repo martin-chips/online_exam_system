@@ -25,9 +25,10 @@ import java.util.List;
  * 教师批卷
  */
 @Controller
-@RequestMapping("/onlineExam/review")
+//localhhost:8080//onlineExam/review
+@RequestMapping("/onlineExam/review")//地址栏中的url前缀
 public class TeacherReviewController extends BaseController {
-
+    //注入对象
     @Autowired
     ExamService examService;
     @Autowired
@@ -37,6 +38,7 @@ public class TeacherReviewController extends BaseController {
     @Autowired
     SysUserService sysUserService;
 
+    //当url
     @GetMapping()
     public String review() {
         return "onlineExam/review/review";
@@ -51,6 +53,9 @@ public class TeacherReviewController extends BaseController {
         return getDataTable(exams);
     }
 
+    /**
+     * 批卷
+     */
     @GetMapping("/{examId}/{studentId}")
     public String reviewStuExam(@PathVariable Integer examId, @PathVariable Integer studentId, Model model) {
         model.addAttribute("exam", examService.findExamDetailToReview(examId, studentId));
@@ -58,18 +63,21 @@ public class TeacherReviewController extends BaseController {
         return "onlineExam/review/reviewExam";
     }
 
+    //异步提交并更新单个试题的得分
     @PostMapping("/reviewExam")
     @ResponseBody
     public AjaxResult reviewExam(ExamRecord examRecord) {
         return toAjax(examRecordService.teacherReviewRecord(examRecord));
     }
 
+    //完成阅卷，提交阅卷的结果，返回index界面，并更新e—s中，total-Score的值
     @PostMapping("/finisReview")
     public String finishReview(Integer examId, Integer stuId) {
         examRecordService.finishReview(examId, stuId);
         return "/index";
     }
 
+    //展示试卷的详情，阅卷完成详情
     @GetMapping("/detail/{examId}/{stuId}")
     public String examDetail(@PathVariable Integer examId, @PathVariable Integer stuId, Model model) {
         model.addAttribute("exam", examService.findExamDetailToReview(examId, stuId));

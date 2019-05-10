@@ -37,10 +37,7 @@ public class Question extends BaseEntity {
     //该题的最终得分
     private Double finalScore;
 
-    /**
-     * 设置选中心项目
-     */
-    //单选或者多选的选中
+    //单选或者多选的选中（修改试题的正确答案回显）
     private String optionAChecked;
     private String optionBChecked;
     private String optionCChecked;
@@ -49,7 +46,7 @@ public class Question extends BaseEntity {
     private String judgeAnswer1;//正确
     private String judgeAnswer0;//错误
 
-    //学生的答案
+    //学生的答案（查看 详情和考试过程中的）
     private String textAnswerStu;
     private String optionACheckedStu;
     private String optionBCheckedStu;

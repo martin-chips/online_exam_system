@@ -183,8 +183,11 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public StudentExamDetail getExamForStudentByExamId(Integer examId, Integer userId) {
+
         List<ExamQuestion> examQuestions = examQuestionDao.selectExamQuestionListByExamId(examId);
+
         Exam exam = examDao.queryById(examId);
+        //新建5中类型的List集合
         List<Question> radioQuestion = new ArrayList<>();
         List<Question> checkboxQuestion = new ArrayList<>();
         List<Question> blackQuestion = new ArrayList<>();
@@ -192,18 +195,15 @@ public class ExamServiceImpl implements ExamService {
         List<Question> shortQuestion = new ArrayList<>();
 
         StudentExamDetail studentExamDetail = new StudentExamDetail();
+
+        //设置试卷信息
         studentExamDetail.setExamName(exam.getExamName());
         studentExamDetail.setLastTime(exam.getExamLastTime());
         studentExamDetail.setStartDate(exam.getExamStartDate());
         studentExamDetail.setExamId(examId);
 
-        //获取学生总成绩
-        ExamStudent examStudent = examStudentDao.selectByExamIdAndStuId(examId, userId);
-        //设置学生总成绩
-        studentExamDetail.setTotalScore(examStudent.getTotalScore());
-
+        //试卷分数
         double score = 0;
-
         for (ExamQuestion examQuestion : examQuestions) {
             Question question = questionDao.queryById(examQuestion.getQuestionId());
             //查询出已经保存的有的数据，方便页面回显
@@ -216,12 +216,14 @@ public class ExamServiceImpl implements ExamService {
                 answer = examRecord.getAnswer();
             }
             score += question.getScore();
+
             setAnswer(answer, question);
+
             if ("1".equals(question.getType())) {
                 //获取单选
                 radioQuestion.add(question);
             } else if ("2".equals(question.getType())) {
-                //获取单选
+                //获取多选
                 checkboxQuestion.add(question);
             } else if ("3".equals(question.getType())) {
                 //获取填空
@@ -242,6 +244,7 @@ public class ExamServiceImpl implements ExamService {
         studentExamDetail.setBalckQuestion(blackQuestion);
 
         studentExamDetail.setScore(score);
+
         return studentExamDetail;
     }
 
@@ -331,6 +334,7 @@ public class ExamServiceImpl implements ExamService {
             answer = examRecord.getAnswer();
 
             setAnswer(answer, question);
+
             score += question.getScore();
             if ("1".equals(question.getType())) {
                 //获取单选
@@ -367,7 +371,7 @@ public class ExamServiceImpl implements ExamService {
      * @param question
      */
     private void setAnswer(String answer, Question question) {
-        //单选 ABC
+        //单选 多选ABC
         switch (question.getType()) {
             case "1":
             case "2":
@@ -384,6 +388,7 @@ public class ExamServiceImpl implements ExamService {
                     }
                 }
                 break;
+            //判断
             case "4":
                 if ("1".equals(answer)) {
                     question.setJudgeAnswer1Stu("1");

@@ -24,6 +24,7 @@ public class StudentExamDetail {
     private Double score;
     //学生考试的总分
     private Double totalScore;
+
     private List<Question> radioQuestion;
     private List<Question> checkboxQuestion;
     private List<Question> judgeQuestion;

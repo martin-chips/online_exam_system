@@ -33,7 +33,7 @@ public interface SysUserService {
      * 修改数据
      *
      * @param sysUser 实例对象
-     * @return 实例对象
+     * @return 收影响的行数
      */
     int update(SysUser sysUser);
 

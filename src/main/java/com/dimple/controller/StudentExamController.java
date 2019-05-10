@@ -24,6 +24,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 学生考试
+ */
 @Controller
 @RequestMapping("/exam/student")
 public class StudentExamController extends BaseController {
@@ -56,6 +59,9 @@ public class StudentExamController extends BaseController {
         return getDataTable(examList);
     }
 
+    /**
+     * 开始考试
+     */
     @GetMapping("/{examId}")
     public String startExam(@PathVariable Integer examId, Model model) {
         model.addAttribute("exam", examService.getExamForStudentByExamId(examId, getSysUser().getId()));
@@ -63,6 +69,9 @@ public class StudentExamController extends BaseController {
     }
 
 
+    /**
+     * 考试记录
+     */
     @PostMapping("/record")
     @ResponseBody
     public AjaxResult record(ExamRecord record) {

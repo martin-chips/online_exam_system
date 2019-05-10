@@ -39,13 +39,13 @@ public class ExamRecordServiceImpl implements ExamRecordService {
 
     @Override
     public void finishReview(Integer examId, Integer stuId) {
-        //根据Exam的id和stud的id查询出所有的试卷
+        //根据Exam的id和stud的id查询出所有试题的记录，计算总得分
         List<ExamRecord> records = examRecordDao.selectRecordByExamIdAndStuId(examId, stuId);
         //遍历record
         double score = 0;
         for (ExamRecord record : records) {
             score += record.getFinalScore();
         }
-        examStudentDao.updateReadingAndTotalScoreByStuIdAndExamId(stuId, examId, score,"0");
+        examStudentDao.updateReadingAndTotalScoreByStuIdAndExamId(stuId, examId, score, "0");
     }
 }
