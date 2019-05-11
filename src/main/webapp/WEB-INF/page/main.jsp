@@ -66,7 +66,7 @@
             </tr>
             <tr>
                 <td>开发作者</td>
-                <td class="author">黄慧</td>
+                <td class="author">XXX</td>
             </tr>
             <tr>
                 <td>网站首页</td>
